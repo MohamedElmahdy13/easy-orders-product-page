@@ -5,9 +5,10 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: 'primary' | 'outline';
 };
 
+// The width of each button comes from its padding (the design hugs the text), so no fixed width is needed
 const variants = {
-  primary: 'bg-ink text-white hover:bg-charcoal',
-  outline: 'border border-charcoal bg-white text-charcoal hover:bg-surface',
+  primary: 'bg-ink px-[99px] text-white hover:bg-charcoal lg:px-[80px] xl:px-[93px]',
+  outline: 'border border-border-strong bg-white px-[35px] text-charcoal lg:px-[30px] hover:bg-surface',
 };
 
 export function Button({ variant = 'primary', type = 'button', className, ...props }: ButtonProps) {
@@ -15,7 +16,7 @@ export function Button({ variant = 'primary', type = 'button', className, ...pro
     <button
       type={type}
       className={cn(
-        'inline-flex h-14.5 items-center justify-center rounded-lg px-6 text-label font-semibold transition-colors',
+        'inline-flex h-14 shrink-0 whitespace-nowrap items-center justify-center rounded-md text-lg font-semibold transition-colors lg:h-14.5 lg:rounded-lg lg:text-label',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink',
         'disabled:cursor-not-allowed disabled:opacity-40',
         variants[variant],
