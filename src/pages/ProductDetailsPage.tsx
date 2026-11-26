@@ -1,5 +1,6 @@
 import { ProductDetails, useProduct } from '@/features/product-details';
 import { Breadcrumb } from '@/shared/ui/Breadcrumb';
+import { Divider } from '@/shared/ui/Divider';
 
 const PRODUCT_SLUG = 'Sneakers12';
 
@@ -14,12 +15,14 @@ export function ProductDetailsPage() {
   ];
 
   return (
-    <div className="container-page mt-6 pb-16 lg:mt-7.75">
-      <Breadcrumb items={breadcrumbItems} />
-
-      <div className="mt-6 lg:mt-7.75">
-        <ProductDetails slug={PRODUCT_SLUG} />
-      </div>
-    </div>
+    <>
+      <section className="pb-16">
+        <div className="container-page flex flex-col gap-6 lg:gap-7.75">
+          <Divider />
+          <Breadcrumb items={breadcrumbItems} />
+          <ProductDetails slug={PRODUCT_SLUG} />
+        </div>
+      </section>
+    </>
   );
 }

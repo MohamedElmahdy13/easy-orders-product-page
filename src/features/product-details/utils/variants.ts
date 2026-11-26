@@ -45,3 +45,19 @@ export function getMaxQuantity(product: Product, variant?: Variant): number {
 export function isInStock(product: Product, variant?: Variant): boolean {
   return getMaxQuantity(product, variant) > 0;
 }
+
+// Can this option still be bought together with the other selected options?
+// Without stock tracking everything is available.
+export function isOptionAvailable(product: Product, selection: Selection, variationName: string, option: string): boolean {
+  if (!product.track_stock) return true;
+
+  const wanted = { ...selection, [variationName]: option };
+  const variant = findVariant(product, wanted);
+
+  return variant ? variant.quantity > 0 : false;
+}
+
+// The API can send the same category twice (with different ids), so list each name once
+export function getCategoryNames(product: Product): string[] {
+  return [...new Set(product.categories.map((category) => category.name))];
+}

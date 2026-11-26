@@ -3,9 +3,11 @@ import type { Product, Variant } from '../product.types';
 import {
   findVariant,
   getDefaultSelection,
+  getCategoryNames,
   getMaxQuantity,
   getPrices,
   isInStock,
+  isOptionAvailable,
   MAX_QUANTITY_WITHOUT_STOCK,
 } from './variants';
 
@@ -138,5 +140,51 @@ describe('getMaxQuantity and isInStock', () => {
 
   it('uses the product stock when tracked and there is no variant', () => {
     expect(getMaxQuantity({ ...product, track_stock: true, quantity: 7 })).toBe(7);
+  });
+});
+
+describe('isOptionAvailable', () => {
+  const tracked: Product = {
+    ...product,
+    track_stock: true,
+    variants: [
+      makeVariant('brown', '38', { quantity: 2 }),
+      makeVariant('brown', '40', { quantity: 0 }),
+      makeVariant('black', '38', { quantity: 0 }),
+      makeVariant('black', '40', { quantity: 5 }),
+    ],
+  };
+
+  it('is always available when stock is not tracked', () => {
+    expect(isOptionAvailable(product, { color: 'brown', size: '38' }, 'size', '40')).toBe(true);
+  });
+
+  it('disables a size that is out of stock for the selected color', () => {
+    const selection = { color: 'brown', size: '38' };
+    expect(isOptionAvailable(tracked, selection, 'size', '38')).toBe(true);
+    expect(isOptionAvailable(tracked, selection, 'size', '40')).toBe(false);
+  });
+
+  it('disables a color that is out of stock for the selected size', () => {
+    const selection = { color: 'brown', size: '38' };
+    expect(isOptionAvailable(tracked, selection, 'color', 'black')).toBe(false);
+  });
+
+  it('is not available when no variant matches', () => {
+    expect(isOptionAvailable(tracked, { color: 'brown', size: '38' }, 'size', '44')).toBe(false);
+  });
+});
+
+describe('getCategoryNames', () => {
+  it('lists each category name once', () => {
+    const withCategories = {
+      ...product,
+      categories: [
+        { id: '1', name: 'Mules' },
+        { id: '2', name: 'Mules' },
+        { id: '3', name: 'Sneakers' },
+      ],
+    };
+    expect(getCategoryNames(withCategories)).toEqual(['Mules', 'Sneakers']);
   });
 });

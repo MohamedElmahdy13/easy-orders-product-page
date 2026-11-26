@@ -7,9 +7,10 @@ type SizeOptionsProps = {
   variation: Variation;
   selected: string;
   onSelect: (option: string) => void;
+  isAvailable: (option: string) => boolean;
 };
 
-export function SizeOptions({ variation, selected, onSelect }: SizeOptionsProps) {
+export function SizeOptions({ variation, selected, onSelect, isAvailable }: SizeOptionsProps) {
   const [isChartOpen, setIsChartOpen] = useState(false);
 
   return (
@@ -27,7 +28,7 @@ export function SizeOptions({ variation, selected, onSelect }: SizeOptionsProps)
         </button>
       </div>
 
-      <ul className="flex flex-wrap gap-x-3.5 gap-y-[22px] lg:gap-y-3.5">
+      <ul className="flex flex-wrap gap-x-[13.4px] gap-y-[22px] lg:gap-x-3.5 lg:gap-y-3.5">
         {variation.props.map((option) => {
           const isSelected = option.name === selected;
 
@@ -36,10 +37,12 @@ export function SizeOptions({ variation, selected, onSelect }: SizeOptionsProps)
               <button
                 type="button"
                 onClick={() => onSelect(option.name)}
+                disabled={!isAvailable(option.name)}
                 aria-pressed={isSelected}
                 className={cn(
-                  'h-[39px] w-[74px] rounded-md border text-label leading-[1.2] font-semibold lg:h-10 lg:w-[75px] lg:rounded-lg',
-                  isSelected ? 'border-charcoal bg-surface-selected text-ink' : 'border-border text-link hover:border-charcoal'
+                  'h-[39px] w-[73.5px] rounded-md border text-label leading-[1.2] font-semibold lg:h-10 lg:w-[75px] lg:rounded-lg',
+                  isSelected ? 'border-charcoal bg-surface-selected text-ink' : 'border-border text-link hover:border-charcoal',
+                  !isAvailable(option.name) && 'text-subtle line-through opacity-50 hover:border-border'
                 )}
               >
                 {option.name}

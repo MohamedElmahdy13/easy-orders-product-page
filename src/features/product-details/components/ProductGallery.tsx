@@ -57,10 +57,14 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
           )}
         >
           <img
+            key={images[selectedIndex]}
             src={images[selectedIndex]}
             alt={`${productName}, image ${selectedIndex + 1} of ${images.length}`}
             style={{ transformOrigin: `${zoomOrigin.x}% ${zoomOrigin.y}%` }}
-            className={cn('size-full object-cover transition-transform duration-200', isZoomed && 'scale-200')}
+            className={cn(
+              'size-full animate-fade-in object-cover transition-transform duration-200 motion-reduce:animate-none',
+              isZoomed && 'scale-200'
+            )}
           />
         </button>
 
@@ -108,7 +112,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
                 index === selectedIndex && 'ring-1 ring-charcoal ring-offset-2'
               )}
             >
-              <img src={image} alt="" className="size-full object-cover" />
+              <img src={image} alt="" loading="lazy" className="size-full object-cover" />
             </button>
           </li>
         ))}

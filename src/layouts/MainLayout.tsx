@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react'
-import { AnnouncementBar } from '@/layouts/AnnouncementBar'
-import { Header } from '@/layouts/Header'
-import { Footer } from '@/layouts/Footer'
+import type { ReactNode } from 'react';
+import { AnnouncementBar } from '@/layouts/AnnouncementBar';
+import { Header } from '@/layouts/Header';
+import { Footer } from '@/layouts/Footer';
 
 export function MainLayout({ children }: { children: ReactNode }) {
   return (
@@ -11,5 +11,5 @@ export function MainLayout({ children }: { children: ReactNode }) {
       <main className="flex-1">{children}</main>
       <Footer />
     </div>
-  )
+  );
 }
