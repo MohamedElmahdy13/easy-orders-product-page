@@ -6,10 +6,9 @@ export function Providers({ children }: { children: ReactNode }) {
     () =>
       new QueryClient({
         defaultOptions: {
+          // Freshness (staleTime) is set per query, next to the data it describes
           queries: {
-            staleTime: 5 * 60 * 1000,
             retry: 1,
-            refetchOnWindowFocus: false,
           },
         },
       }),

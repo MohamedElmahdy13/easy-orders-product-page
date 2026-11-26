@@ -16,13 +16,13 @@ export function Drawer({ open, onClose, title, children, footer }: DrawerProps) 
     <Dialog open={open} onClose={onClose} className="relative z-50">
       <DialogBackdrop
         transition
-        className="fixed inset-0 bg-ink/40 transition-opacity duration-300 data-closed:opacity-0"
+        className="fixed inset-0 bg-ink/40 transition-opacity duration-300 data-closed:opacity-0 motion-reduce:transition-none"
       />
 
       <div className="fixed inset-y-0 right-0 flex w-full max-w-105">
         <DialogPanel
           transition
-          className="flex w-full flex-col bg-white transition-transform duration-300 ease-out data-closed:translate-x-full"
+          className="flex w-full flex-col bg-white transition-transform duration-300 ease-out data-closed:translate-x-full motion-reduce:transition-none"
         >
           <div className="flex items-center justify-between border-b border-border px-6 py-5">
             <DialogTitle className="text-label font-semibold text-heading">{title}</DialogTitle>
