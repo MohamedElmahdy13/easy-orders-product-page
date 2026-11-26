@@ -14,10 +14,10 @@ export function ProductDetailsPage() {
   ];
 
   return (
-    <div className="container-page mt-6 pb-16 lg:mt-[31px]">
+    <div className="container-page mt-6 pb-16 lg:mt-7.75">
       <Breadcrumb items={breadcrumbItems} />
 
-      <div className="mt-6 lg:mt-[31px]">
+      <div className="mt-6 lg:mt-7.75">
         <ProductDetails slug={PRODUCT_SLUG} />
       </div>
     </div>

@@ -14,7 +14,7 @@ function capitalize(text: string) {
 export function ColorOptions({ variation, selected, onSelect }: ColorOptionsProps) {
   return (
     <div className="flex flex-col gap-[18px]">
-      <p className="text-label leading-[1.2] font-medium text-subtle">
+      <p className="text-lg leading-[1.2] font-medium text-subtle lg:text-label">
         Color: <span className="font-semibold text-heading">{capitalize(selected)}</span>
       </p>
 
@@ -30,11 +30,11 @@ export function ColorOptions({ variation, selected, onSelect }: ColorOptionsProp
                 aria-pressed={isSelected}
                 aria-label={capitalize(option.name)}
                 className={cn(
-                  'block h-10 w-[75px] overflow-hidden rounded-lg',
+                  'block h-[39px] w-[74px] overflow-hidden rounded-md lg:h-10 lg:w-[75px] lg:rounded-lg',
                   isSelected && 'border border-ink bg-white p-[5px]'
                 )}
               >
-                <img src={option.value} alt="" className={cn('size-full object-cover', isSelected && 'rounded-md')} />
+                <img src={option.value} alt="" className={cn('size-full object-cover', isSelected && 'rounded-sm lg:rounded-md')} />
               </button>
             </li>
           );

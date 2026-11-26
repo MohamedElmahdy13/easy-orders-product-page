@@ -8,7 +8,7 @@ type AddToCartActionsProps = {
 
 export function AddToCartActions({ disabled, onAddToCart, onCheckout }: AddToCartActionsProps) {
   return (
-    <div className="flex flex-col gap-4 sm:flex-row sm:gap-6">
+    <div className="flex flex-col gap-[18px] sm:flex-row sm:gap-6">
       <Button onClick={onAddToCart} disabled={disabled} className="sm:w-[296px]">
         Add To Cart
       </Button>
