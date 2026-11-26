@@ -1,14 +1,14 @@
-import type { ReactNode } from 'react'
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react'
-import { CloseIcon } from '@/shared/ui/icons'
+import type { ReactNode } from 'react';
+import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from '@headlessui/react';
+import { CloseIcon } from '@/shared/ui/icons';
 
 type DrawerProps = {
-  open: boolean
-  onClose: () => void
-  title: string
-  children: ReactNode
-  footer?: ReactNode
-}
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  children: ReactNode;
+  footer?: ReactNode;
+};
 
 // Slide-in panel from the right. Headless UI handles focus trap, Escape and scroll lock.
 export function Drawer({ open, onClose, title, children, footer }: DrawerProps) {
@@ -19,7 +19,7 @@ export function Drawer({ open, onClose, title, children, footer }: DrawerProps) 
         className="fixed inset-0 bg-ink/40 transition-opacity duration-300 data-closed:opacity-0"
       />
 
-      <div className="fixed inset-y-0 right-0 flex w-full max-w-[420px]">
+      <div className="fixed inset-y-0 right-0 flex w-full max-w-105">
         <DialogPanel
           transition
           className="flex w-full flex-col bg-white transition-transform duration-300 ease-out data-closed:translate-x-full"
@@ -42,5 +42,5 @@ export function Drawer({ open, onClose, title, children, footer }: DrawerProps) 
         </DialogPanel>
       </div>
     </Dialog>
-  )
+  );
 }
