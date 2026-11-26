@@ -5,6 +5,7 @@ import { getMaxQuantity, getPrices, isInStock } from '../utils/variants';
 import type { Selection } from '../utils/variants';
 import { AddToCartActions } from './AddToCartActions';
 import { ColorOptions } from './ColorOptions';
+import { ProductDescription } from './ProductDescription';
 import { SizeOptions } from './SizeOptions';
 import { StockStatus } from './StockStatus';
 
@@ -52,6 +53,8 @@ export function ProductInfo({
         <hr className="border-0 border-t-[0.5px] border-dashed border-divider" />
 
         <div className="flex flex-col gap-10">
+          <ProductDescription html={product.description} />
+
           {colors && (
             <ColorOptions
               variation={colors}
