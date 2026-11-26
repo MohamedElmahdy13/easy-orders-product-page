@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { FormEvent } from 'react';
 import logo from '@/assets/logo.png';
 import {
@@ -9,12 +10,17 @@ import {
   TwitterIcon,
   UsFlagIcon,
 } from '@/shared/ui/icons';
+import { Dropdown } from '@/shared/ui/Dropdown';
 
 const footerColumns = [
   { title: 'Shop', links: ['My account', 'Login', 'Wishlist', 'Cart'] },
   { title: 'Information', links: ['Shipping Policy', 'Returns & Refunds', 'Cookies Policy', 'Frequently asked'] },
   { title: 'Company', links: ['About us', 'Privacy Policy', 'Terms & Conditions', 'Contact Us'] },
 ];
+
+// These only change the label, the demo has no translations or exchange rates
+const languages = ['English', 'Arabic', 'French'];
+const currencies = ['USD', 'EUR', 'EGP'];
 
 const socialLinks = [
   { label: 'Facebook', Icon: FacebookIcon },
@@ -24,6 +30,9 @@ const socialLinks = [
 ];
 
 export function Footer() {
+  const [language, setLanguage] = useState('English');
+  const [currency, setCurrency] = useState('USD');
+
   // No newsletter backend for this task, so the form only stops the page reload
   function handleSubscribe(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -91,17 +100,33 @@ export function Footer() {
           <p className="text-sm leading-[22px] text-[#3E3E59]">© John Lewis plc 2001 - 2024</p>
 
           <div className="flex gap-4 self-end text-sm leading-6 font-medium sm:self-auto lg:gap-8">
-            <button type="button" className="flex items-center gap-2">
-              <UsFlagIcon />
-              <span className="flex items-center gap-0.5">
-                English
-                <ChevronDownIcon width="18" height="18" />
-              </span>
-            </button>
-            <button type="button" className="flex items-center gap-0.5">
-              USD
-              <ChevronDownIcon width="18" height="18" />
-            </button>
+            <Dropdown
+              anchor="top end"
+              selected={language}
+              buttonClassName="flex items-center gap-2"
+              button={
+                <>
+                  <UsFlagIcon />
+                  <span className="flex items-center gap-0.5">
+                    {language}
+                    <ChevronDownIcon width="18" height="18" />
+                  </span>
+                </>
+              }
+              items={languages.map((name) => ({ label: name, onSelect: () => setLanguage(name) }))}
+            />
+            <Dropdown
+              anchor="top end"
+              selected={currency}
+              buttonClassName="flex items-center gap-0.5"
+              button={
+                <>
+                  {currency}
+                  <ChevronDownIcon width="18" height="18" />
+                </>
+              }
+              items={currencies.map((name) => ({ label: name, onSelect: () => setCurrency(name) }))}
+            />
           </div>
         </div>
       </div>

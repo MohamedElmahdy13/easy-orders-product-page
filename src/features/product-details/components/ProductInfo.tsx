@@ -19,6 +19,8 @@ type ProductInfoProps = {
   onQuantityChange: (quantity: number) => void;
   onAddToCart: () => void;
   onCheckout: () => void;
+  addDisabled: boolean;
+  message: string;
 };
 
 export function ProductInfo({
@@ -30,6 +32,8 @@ export function ProductInfo({
   onQuantityChange,
   onAddToCart,
   onCheckout,
+  addDisabled,
+  message,
 }: ProductInfoProps) {
   const { price, oldPrice } = getPrices(product, variant);
   const inStock = isInStock(product, variant);
@@ -93,7 +97,13 @@ export function ProductInfo({
       </div>
 
       <div className="mt-12 lg:mt-14">
-        <AddToCartActions disabled={!inStock} onAddToCart={onAddToCart} onCheckout={onCheckout} />
+        <AddToCartActions
+          disabled={!inStock}
+          onAddToCart={onAddToCart}
+          onCheckout={onCheckout}
+          addDisabled={addDisabled}
+          message={message}
+        />
       </div>
 
       {categories.length > 0 && (

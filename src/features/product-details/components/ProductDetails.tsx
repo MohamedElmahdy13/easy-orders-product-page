@@ -1,9 +1,12 @@
+import { useEffect, useState } from 'react';
+import { useCartStore } from '@/features/cart';
 import { Button } from '@/shared/ui/Button';
 import { Skeleton } from '@/shared/ui/Skeleton';
 import { useProduct } from '../hooks/useProduct';
 import { useVariantSelection } from '../hooks/useVariantSelection';
 import type { Product } from '../product.types';
 import { getGalleryImages } from '../utils/gallery';
+import { getMaxQuantity, getPrices } from '../utils/variants';
 import { ProductGallery } from './ProductGallery';
 import { ProductInfo } from './ProductInfo';
 
@@ -44,9 +47,50 @@ export function ProductDetails({ slug }: { slug: string }) {
 function ProductContent({ product }: { product: Product }) {
   const { selection, variant, selectOption, quantity, setQuantity } = useVariantSelection(product);
 
-  // The cart feature will replace these two
-  function handleAddToCart() {}
-  function handleCheckout() {}
+  const addItem = useCartStore((state) => state.addItem);
+  const openCart = useCartStore((state) => state.openCart);
+  const [justAdded, setJustAdded] = useState(false);
+
+  // How many of this exact variant are already in the cart
+  const itemId = `${product.id}:${variant?.id ?? 'default'}`;
+  const maxQuantity = getMaxQuantity(product, variant);
+  const quantityInCart = useCartStore((state) => state.items.find((item) => item.id === itemId)?.quantity ?? 0);
+  const isMaxInCart = quantityInCart >= maxQuantity;
+
+  let message = '';
+  if (justAdded) message = 'Added to cart ✓';
+  else if (isMaxInCart) message = 'You already have the maximum quantity in your cart';
+
+  // Hide the "Added to cart" message after 2 seconds
+  useEffect(() => {
+    if (!justAdded) return;
+    const timer = setTimeout(() => setJustAdded(false), 2000);
+    return () => clearTimeout(timer);
+  }, [justAdded]);
+
+  function addToCart() {
+    addItem({
+      id: itemId,
+      productId: product.id,
+      name: product.name,
+      image: product.thumb,
+      price: getPrices(product, variant).price,
+      color: selection.color,
+      size: selection.size,
+      quantity,
+      maxQuantity,
+    });
+  }
+
+  function handleAddToCart() {
+    addToCart();
+    setJustAdded(true);
+  }
+
+  function handleCheckout() {
+    addToCart();
+    openCart();
+  }
 
   return (
     <div className={pageGrid}>
@@ -60,6 +104,8 @@ function ProductContent({ product }: { product: Product }) {
         onQuantityChange={setQuantity}
         onAddToCart={handleAddToCart}
         onCheckout={handleCheckout}
+        addDisabled={isMaxInCart}
+        message={message}
       />
     </div>
   );
