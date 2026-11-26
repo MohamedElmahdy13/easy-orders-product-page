@@ -54,6 +54,7 @@ const product: Product = {
       ],
     },
   ],
+  categories: [],
   variants: [
     makeVariant('brown', '38'),
     makeVariant('brown', '40'),

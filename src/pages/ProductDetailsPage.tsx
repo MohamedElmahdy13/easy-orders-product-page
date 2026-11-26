@@ -1,17 +1,18 @@
-import { ProductDetails } from '@/features/product-details';
+import { ProductDetails, useProduct } from '@/features/product-details';
 import { Breadcrumb } from '@/shared/ui/Breadcrumb';
 
 const PRODUCT_SLUG = 'Sneakers12';
 
-// The last item will come from the product name once the product info is built
-const breadcrumbItems = [
-  { label: 'Homepage', href: '/' },
-  { label: 'Women' },
-  { label: "Women's Shirts & Tops" },
-  { label: 'Long Sleeve Overshirt, Khaki, 6' },
-];
-
 export function ProductDetailsPage() {
+  // Same query as ProductDetails, so React Query does not fetch twice
+  const { data: product } = useProduct(PRODUCT_SLUG);
+
+  const breadcrumbItems = [
+    { label: 'Homepage', href: '/' },
+    ...(product?.categories[0] ? [{ label: product.categories[0].name }] : []),
+    { label: product?.name ?? 'Loading...' },
+  ];
+
   return (
     <div className="container-page mt-6 pb-16 lg:mt-[31px]">
       <Breadcrumb items={breadcrumbItems} />

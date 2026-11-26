@@ -26,6 +26,11 @@ export type Variant = {
   variation_props: VariantProp[];
 };
 
+export type Category = {
+  id: string;
+  name: string;
+};
+
 export type Product = {
   id: string;
   name: string;
@@ -39,4 +44,5 @@ export type Product = {
   track_stock: boolean;
   variations: Variation[];
   variants: Variant[];
+  categories: Category[];
 };
