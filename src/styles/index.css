@@ -14,6 +14,7 @@
   --color-border: #e6e6e6;
   --color-surface: #f2f2f2;
   --color-surface-selected: #ebebeb;
+  --color-divider: #a3a3a3;
   --color-star: #ffa439;
 
   /* Type scale (size / line-height / letter-spacing) */
@@ -32,12 +33,12 @@
   --text-body--line-height: 1.3;
 }
 
-/* 1200px content + 16px side gutter on small screens */
+/* 1200px content + 20px side gutter on small screens */
 @utility container-page {
   width: 100%;
-  max-width: calc(1200px + 2rem);
+  max-width: calc(1200px + 2.5rem);
   margin-inline: auto;
-  padding-inline: 1rem;
+  padding-inline: 1.25rem;
 }
 
 @layer base {

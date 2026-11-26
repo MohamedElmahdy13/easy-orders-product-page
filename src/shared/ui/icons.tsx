@@ -144,3 +144,71 @@ export function StarIcon(props: IconProps) {
     </svg>
   );
 }
+
+export function MenuIcon(props: IconProps) {
+  return (
+    <Icon strokeWidth="1.25" {...props}>
+      <path d="M3.333 4.167H16.667M3.333 10H16.667M3.333 15.833H16.667" />
+    </Icon>
+  );
+}
+
+// Small 12px arrow used between breadcrumb items
+export function BreadcrumbArrowIcon(props: IconProps) {
+  return (
+    <Icon width="12" height="12" viewBox="0 0 12 12" {...props}>
+      <path d="M4.455 9.96L7.715 6.7C8.1 6.315 8.1 5.685 7.715 5.3L4.455 2.04" />
+    </Icon>
+  );
+}
+
+// Social icons from the footer (18px grid)
+export function FacebookIcon(props: IconProps) {
+  return (
+    <Icon width="18" height="18" viewBox="0 0 18 18" {...props}>
+      <path d="M4.938 7.461V10.461H7.188V15.711H10.188V10.461H12.438L13.188 7.461H10.188V5.961C10.188 5.762 10.267 5.571 10.408 5.431C10.548 5.29 10.739 5.211 10.938 5.211H13.188V2.211H10.938C9.943 2.211 8.99 2.606 8.286 3.309C7.583 4.012 7.188 4.966 7.188 5.961V7.461H4.938Z" />
+    </Icon>
+  );
+}
+
+export function InstagramIcon(props: IconProps) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true" focusable="false" {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M14.493 5.961C14.493 4.718 13.486 3.711 12.243 3.711H6.243C5.001 3.711 3.993 4.718 3.993 5.961V11.961C3.993 13.204 5.001 14.211 6.243 14.211H12.243C13.486 14.211 14.493 13.204 14.493 11.961V5.961ZM15.993 11.961C15.993 14.032 14.314 15.711 12.243 15.711H6.243C4.172 15.711 2.493 14.032 2.493 11.961V5.961C2.493 3.89 4.172 2.211 6.243 2.211H12.243C14.314 2.211 15.993 3.89 15.993 5.961V11.961ZM10.743 8.961C10.743 8.133 10.072 7.461 9.243 7.461C8.415 7.461 7.743 8.133 7.743 8.961C7.743 9.789 8.415 10.461 9.243 10.461C10.072 10.461 10.743 9.789 10.743 8.961ZM12.243 8.961C12.243 10.618 10.9 11.961 9.243 11.961C7.586 11.961 6.243 10.618 6.243 8.961C6.243 7.304 7.586 5.961 9.243 5.961C10.9 5.961 12.243 7.304 12.243 8.961ZM12.618 4.836C12.204 4.836 11.868 5.173 11.868 5.587C11.868 6.001 12.204 6.337 12.618 6.337C13.032 6.337 13.368 6.001 13.368 5.587C13.368 5.173 13.032 4.836 12.618 4.836Z"
+      />
+    </svg>
+  );
+}
+
+export function TwitterIcon(props: IconProps) {
+  return (
+    <Icon width="18" height="18" viewBox="0 0 18 18" {...props}>
+      <path d="M16.227 2.93C15.477 3.297 14.742 3.446 13.977 3.672C13.136 2.723 11.89 2.671 10.692 3.119C9.494 3.568 8.71 4.664 8.727 5.922V6.672C6.293 6.734 4.126 5.626 2.727 3.672C2.727 3.672 -0.409 9.247 5.727 11.922C4.323 12.857 2.923 13.488 1.227 13.422C3.708 14.774 6.412 15.239 8.753 14.56C11.438 13.78 13.644 11.768 14.491 8.753C14.743 7.837 14.869 6.889 14.864 5.939C14.862 5.752 15.996 3.86 16.227 2.929V2.93Z" />
+    </Icon>
+  );
+}
+
+export function MailIcon(props: IconProps) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" aria-hidden="true" focusable="false" {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M15.204 6.573L9.62 10.296C9.368 10.464 9.04 10.464 8.788 10.296L3.204 6.573V12.672C3.204 13.086 3.54 13.422 3.954 13.422H14.454C14.868 13.422 15.204 13.086 15.204 12.672V6.573ZM3.288 4.826L9.204 8.77L15.12 4.826C14.995 4.586 14.744 4.422 14.454 4.422H3.954C3.664 4.422 3.413 4.586 3.288 4.826ZM16.704 5.159C16.697 3.922 15.692 2.922 14.454 2.922H3.954C2.716 2.922 1.711 3.922 1.704 5.159M16.704 5.181V12.672C16.704 13.915 15.697 14.922 14.454 14.922H3.954C2.712 14.922 1.704 13.915 1.704 12.672V5.181M16.704 5.172V5.181Z"
+      />
+    </svg>
+  );
+}
+
+export function UsFlagIcon(props: IconProps) {
+  return (
+    <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true" focusable="false" {...props}>
+      <rect width="18" height="14" fill="#BD3D44" />
+      <path d="M0 2.15H18M0 4.3H18M0 6.45H18M0 8.6H18M0 10.75H18M0 12.9H18" stroke="#FFFFFF" strokeWidth="1.08" />
+      <rect width="7.7" height="7.5" fill="#192F5D" />
+    </svg>
+  );
+}
