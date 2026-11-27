@@ -6,9 +6,9 @@ Shows the product images and lets the shopper browse and zoom them.
 
 ## Behavior
 
-- Main image plus a row of thumbnails. Clicking a thumbnail shows that image.
+- The main image is shown whole (`object-contain`), so wide photos are not cropped. A row of thumbnails sits under it. Clicking a thumbnail shows that image.
 - Previous and next buttons go around at both ends (the last image goes back to the first). They only show when there is more than one image.
-- Click the main image to zoom in (2x) or out. While zoomed, moving the mouse changes the zoom point.
+- Click or tap the main image to zoom in (2x) at that spot, and again to zoom out. While zoomed, moving the mouse or dragging a finger changes the zoom point (pointer events). While zoomed, the image has `touch-action: none` so dragging moves the image instead of scrolling the page. When it is not zoomed, the page scrolls normally.
 - A short fade animation runs when the image changes, and the zoom resets. Animations are off when the user prefers reduced motion.
 - Share button: uses the native share sheet when the browser has it, otherwise copies the page link. There is no confirmation message yet.
 - The wishlist heart is only part of the design and does nothing yet.

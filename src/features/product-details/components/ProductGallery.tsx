@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { MouseEvent } from 'react';
+import type { PointerEvent } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, HeartIcon, ShareIcon } from '@/shared/ui/icons';
 import { IconButton } from '@/shared/ui/IconButton';
 import { cn } from '@/shared/utils/cn';
@@ -21,7 +21,8 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
     setIsZoomed(false);
   }
 
-  function moveZoom(event: MouseEvent<HTMLButtonElement>) {
+  // Works for the mouse and for a finger, so the zoomed image can be moved on touch screens too
+  function moveZoom(event: PointerEvent<HTMLButtonElement>) {
     const box = event.currentTarget.getBoundingClientRect();
     setZoomOrigin({
       x: ((event.clientX - box.left) / box.width) * 100,
@@ -49,11 +50,13 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
         <button
           type="button"
           onClick={() => setIsZoomed((zoomed) => !zoomed)}
-          onMouseMove={isZoomed ? moveZoom : undefined}
+          onPointerDown={moveZoom}
+          onPointerMove={isZoomed ? moveZoom : undefined}
           aria-label={isZoomed ? 'Zoom out' : 'Zoom in'}
           className={cn(
             'aspect-458/610 min-w-0 flex-1 overflow-hidden rounded-lg bg-surface',
-            isZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'
+            // touch-none: while zoomed, dragging moves the image instead of scrolling the page
+            isZoomed ? 'cursor-zoom-out touch-none' : 'cursor-zoom-in'
           )}
         >
           <img
@@ -62,7 +65,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
             alt={`${productName}, image ${selectedIndex + 1} of ${images.length}`}
             style={{ transformOrigin: `${zoomOrigin.x}% ${zoomOrigin.y}%` }}
             className={cn(
-              'size-full animate-fade-in object-cover transition-transform duration-200 motion-reduce:animate-none motion-reduce:transition-none',
+              'size-full animate-fade-in object-contain transition-transform duration-200 motion-reduce:animate-none motion-reduce:transition-none',
               isZoomed && 'scale-200'
             )}
           />
