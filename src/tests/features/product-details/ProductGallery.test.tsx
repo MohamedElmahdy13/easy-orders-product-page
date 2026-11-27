@@ -127,4 +127,81 @@ describe('ProductGallery', () => {
     expect(writeText).not.toHaveBeenCalled();
     expect(screen.getByRole('status')).toBeEmptyDOMElement();
   });
+
+  describe('keyboard', () => {
+    it('changes the image with the left and right arrows and goes around at the ends', async () => {
+      const user = userEvent.setup();
+      renderGallery();
+      screen.getByRole('button', { name: 'Zoom in' }).focus();
+
+      await user.keyboard('{ArrowRight}');
+      expect(screen.getByAltText('Boot, image 2 of 3')).toBeInTheDocument();
+
+      await user.keyboard('{ArrowLeft}{ArrowLeft}');
+      expect(screen.getByAltText('Boot, image 3 of 3')).toBeInTheDocument();
+
+      await user.keyboard('{ArrowRight}');
+      expect(screen.getByAltText('Boot, image 1 of 3')).toBeInTheDocument();
+    });
+
+    it('works from a thumbnail too', async () => {
+      const user = userEvent.setup();
+      renderGallery();
+      screen.getByRole('button', { name: 'Show image 1' }).focus();
+
+      await user.keyboard('{ArrowRight}');
+
+      expect(screen.getByAltText('Boot, image 2 of 3')).toBeInTheDocument();
+    });
+
+    it('does not use the up and down arrows, so the page can still scroll', async () => {
+      const user = userEvent.setup();
+      renderGallery();
+      screen.getByRole('button', { name: 'Zoom in' }).focus();
+
+      await user.keyboard('{ArrowDown}{ArrowUp}');
+
+      expect(screen.getByAltText('Boot, image 1 of 3')).toBeInTheDocument();
+    });
+
+    it('leaves the browser shortcuts alone', async () => {
+      const user = userEvent.setup();
+      renderGallery();
+      screen.getByRole('button', { name: 'Zoom in' }).focus();
+
+      await user.keyboard('{Meta>}{ArrowRight}{/Meta}{Alt>}{ArrowRight}{/Alt}');
+
+      expect(screen.getByAltText('Boot, image 1 of 3')).toBeInTheDocument();
+    });
+
+    it('does nothing when the focus is outside the gallery', async () => {
+      const user = userEvent.setup();
+      renderGallery();
+
+      await user.keyboard('{ArrowRight}');
+
+      expect(screen.getByAltText('Boot, image 1 of 3')).toBeInTheDocument();
+    });
+
+    it('does not change the image when there is only one', async () => {
+      const user = userEvent.setup();
+      renderGallery(['a.jpg']);
+      screen.getByRole('button', { name: 'Zoom in' }).focus();
+
+      await user.keyboard('{ArrowRight}{ArrowLeft}');
+
+      expect(screen.getByAltText('Boot, image 1 of 1')).toBeInTheDocument();
+    });
+
+    it('zooms out with Escape', async () => {
+      const user = userEvent.setup();
+      renderGallery();
+
+      await user.click(screen.getByRole('button', { name: 'Zoom in' }));
+      expect(screen.getByRole('button', { name: 'Zoom out' })).toBeInTheDocument();
+
+      await user.keyboard('{Escape}');
+      expect(screen.getByRole('button', { name: 'Zoom in' })).toBeInTheDocument();
+    });
+  });
 });
