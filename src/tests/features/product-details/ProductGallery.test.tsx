@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ProductGallery } from '@/features/product-details/components/ProductGallery';
 
 const images = ['a.jpg', 'b.jpg', 'c.jpg'];
@@ -8,6 +8,12 @@ const images = ['a.jpg', 'b.jpg', 'c.jpg'];
 function renderGallery(list = images) {
   render(<ProductGallery images={list} productName="Boot" />);
 }
+
+afterEach(() => {
+  vi.restoreAllMocks();
+  // jsdom has no navigator.share, so remove the fake one a test may have added
+  Reflect.deleteProperty(navigator, 'share');
+});
 
 describe('ProductGallery', () => {
   it('shows the first image and changes it when a thumbnail is clicked', async () => {
@@ -85,5 +91,40 @@ describe('ProductGallery', () => {
     renderGallery([]);
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: 'Zoom in' })).not.toBeInTheDocument();
+  });
+
+  it('copies the link and says so when the browser has no share sheet', async () => {
+    const user = userEvent.setup();
+    const writeText = vi.spyOn(navigator.clipboard, 'writeText').mockResolvedValue();
+    renderGallery();
+
+    await user.click(screen.getByRole('button', { name: 'Share' }));
+
+    expect(writeText).toHaveBeenCalledWith(window.location.href);
+    expect(await screen.findByRole('status')).toHaveTextContent('Link copied');
+  });
+
+  it('says so when the link cannot be copied', async () => {
+    const user = userEvent.setup();
+    vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValue(new Error('blocked'));
+    renderGallery();
+
+    await user.click(screen.getByRole('button', { name: 'Share' }));
+
+    expect(await screen.findByRole('status')).toHaveTextContent('Could not copy the link');
+  });
+
+  it('uses the share sheet when the browser has one and does not copy', async () => {
+    const user = userEvent.setup();
+    const share = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'share', { value: share, configurable: true });
+    const writeText = vi.spyOn(navigator.clipboard, 'writeText');
+    renderGallery();
+
+    await user.click(screen.getByRole('button', { name: 'Share' }));
+
+    expect(share).toHaveBeenCalledWith({ title: 'Boot', url: window.location.href });
+    expect(writeText).not.toHaveBeenCalled();
+    expect(screen.getByRole('status')).toBeEmptyDOMElement();
   });
 });

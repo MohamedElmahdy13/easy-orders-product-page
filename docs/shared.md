@@ -24,3 +24,9 @@ Code in `src/shared` does not know about any feature.
 | `cn(...classes)` | Joins class names and skips empty values. |
 | `formatPrice(amount)` | Formats a number like `$28.00`. |
 | `capitalize(text)` | Upper-cases the first letter. |
+
+## Hooks (`shared/hooks`)
+
+| Hook | What it does |
+| --- | --- |
+| `useTemporaryMessage(duration = 2000)` | Returns `[message, showMessage]`. `showMessage('Link copied')` shows the text and clears it after `duration` ms. Showing a message again restarts the timer, and the timer stops when the component is removed. Used for "Added to cart" and the share message. |

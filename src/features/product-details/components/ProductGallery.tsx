@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { PointerEvent } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, HeartIcon, ShareIcon } from '@/shared/ui/icons';
+import { useTemporaryMessage } from '@/shared/hooks/useTemporaryMessage';
 import { IconButton } from '@/shared/ui/IconButton';
 import { cn } from '@/shared/utils/cn';
 import { getNextIndex } from '../utils/gallery';
@@ -15,6 +16,8 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
   const [isZoomed, setIsZoomed] = useState(false);
   // Where the zoom is centered, in percent of the image
   const [zoomOrigin, setZoomOrigin] = useState({ x: 50, y: 50 });
+  // Short message next to the share button, for example "Link copied"
+  const [shareMessage, showShareMessage] = useTemporaryMessage();
 
   function selectImage(index: number) {
     setSelectedIndex(index);
@@ -33,10 +36,17 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
   async function handleShare() {
     const url = window.location.href;
 
+    // The share sheet of the phone or browser shows its own feedback
     if (navigator.share) {
       await navigator.share({ title: productName, url }).catch(() => {});
-    } else {
-      await navigator.clipboard?.writeText(url).catch(() => {});
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(url);
+      showShareMessage('Link copied');
+    } catch {
+      showShareMessage('Could not copy the link');
     }
   }
 
@@ -74,9 +84,21 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
         {/* Buttons column as tall as the image: share and wishlist on top, arrows at the bottom */}
         <div className="flex flex-col justify-between">
           <div className="flex flex-col gap-5">
-            <IconButton aria-label="Share" onClick={handleShare}>
-              <ShareIcon />
-            </IconButton>
+            <div className="relative">
+              <IconButton aria-label="Share" onClick={handleShare}>
+                <ShareIcon />
+              </IconButton>
+              {/* Always on the page so screen readers announce the message. It sits on the left, over the image. */}
+              <p
+                role="status"
+                className={cn(
+                  'absolute top-1/2 right-full z-10 mr-2 -translate-y-1/2 rounded-md bg-ink px-3 py-1.5 text-sm font-medium whitespace-nowrap text-white',
+                  !shareMessage && 'hidden'
+                )}
+              >
+                {shareMessage}
+              </p>
+            </div>
             <IconButton aria-label="Add to wishlist">
               <HeartIcon />
             </IconButton>
