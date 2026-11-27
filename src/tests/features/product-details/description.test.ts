@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cleanDescription } from './description';
+import { cleanDescription } from '@/features/product-details/utils/description';
 
 describe('cleanDescription', () => {
   it('removes scripts and event handlers', () => {

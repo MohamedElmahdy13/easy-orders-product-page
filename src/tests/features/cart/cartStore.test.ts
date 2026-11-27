@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import type { CartItem } from '../cart.types';
-import { selectCartCount, selectCartTotal, useCartStore } from './cartStore';
+import type { CartItem } from '@/features/cart/cart.types';
+import { selectCartCount, selectCartTotal, useCartStore } from '@/features/cart/store/cartStore';
 
 const shoe: CartItem = {
   id: 'p1:v1',

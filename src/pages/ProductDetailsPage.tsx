@@ -1,4 +1,4 @@
-import { ProductDetails, useProduct } from '@/features/product-details';
+import { getCategoryNames, ProductDetails, useProduct } from '@/features/product-details';
 import { Breadcrumb } from '@/shared/ui/Breadcrumb';
 import { Divider } from '@/shared/ui/Divider';
 
@@ -6,12 +6,12 @@ const PRODUCT_SLUG = 'Sneakers12';
 
 export function ProductDetailsPage() {
   // Same query as ProductDetails, so React Query does not fetch twice
-  const { data: product } = useProduct(PRODUCT_SLUG);
+  const { data: product, isError } = useProduct(PRODUCT_SLUG);
 
   const breadcrumbItems = [
     { label: 'Homepage', href: '/' },
-    ...(product?.categories[0] ? [{ label: product.categories[0].name }] : []),
-    { label: product?.name ?? 'Loading...' },
+    ...(product ? getCategoryNames(product).map((name) => ({ label: name })) : []),
+    { label: product?.name ?? (isError ? 'Product unavailable' : 'Loading...') },
   ];
 
   return (

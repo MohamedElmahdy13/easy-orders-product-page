@@ -10,7 +10,7 @@ import { getMaxQuantity, getPrices } from '../utils/variants';
 import { ProductGallery } from './ProductGallery';
 import { ProductInfo } from './ProductInfo';
 
-const pageGrid = 'grid grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-[545px_520px] xl:gap-[135px]';
+const pageGrid = 'grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-[545px_520px] xl:gap-[135px]';
 
 // Owns what the shopper picked, so the gallery and the info stay in sync
 export function ProductDetails({ slug }: { slug: string }) {

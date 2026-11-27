@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { Product, Variant } from '../product.types';
+import type { Product, Variant } from '@/features/product-details/product.types';
 import {
   findVariant,
   getDefaultSelection,
@@ -10,7 +10,7 @@ import {
   isOptionAvailable,
   MAX_QUANTITY_WITHOUT_STOCK,
   selectOption,
-} from './variants';
+} from '@/features/product-details/utils/variants';
 
 function makeVariant(color: string, size: string, overrides: Partial<Variant> = {}): Variant {
   return {

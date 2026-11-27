@@ -12,10 +12,12 @@ export function CartButton() {
       type="button"
       onClick={openCart}
       aria-label={`Cart, ${count} items`}
-      className="relative focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+      className="-m-2.5 p-2.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
     >
-      <CartIcon />
-      <Badge count={count} className="absolute -top-1 -right-1.5" />
+      <span className="relative block">
+        <CartIcon />
+        <Badge count={count} className="absolute -top-1 -right-1.5" />
+      </span>
     </button>
   );
 }

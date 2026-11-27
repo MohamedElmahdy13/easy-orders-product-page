@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import { Dropdown } from './Dropdown';
+import { Dropdown } from '@/shared/ui/Dropdown';
 
 describe('Dropdown', () => {
   it('opens on click, calls onSelect and closes', async () => {

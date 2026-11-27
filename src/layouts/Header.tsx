@@ -21,8 +21,8 @@ export function Header() {
 
   return (
     <>
-      <header className="container-page py-7.75">
-        <div className="flex items-center justify-between">
+      <header className="py-7.75">
+        <div className="container-page flex items-center justify-between">
           <a href="/">
             <img
               src={logo}
@@ -32,7 +32,7 @@ export function Header() {
           </a>
 
           <nav aria-label="Main" className="flex items-center gap-5 lg:gap-8">
-            <button type="button" aria-label="Search">
+            <button type="button" aria-label="Search" className="-m-2.5 p-2.5">
               <SearchIcon />
             </button>
 
@@ -49,12 +49,12 @@ export function Header() {
               items={categories.map((name) => ({ label: name }))}
             />
 
-            <a href="#" className={textLinkClass}>
+            <a className={textLinkClass}>
               <UserIcon />
               Sign in
             </a>
 
-            <a href="#" aria-label="Wishlist" className="hidden lg:block">
+            <a aria-label="Wishlist" className="hidden lg:block">
               <HeartIcon />
             </a>
 
@@ -64,7 +64,7 @@ export function Header() {
               type="button"
               aria-label="Open menu"
               onClick={() => setIsMenuOpen(true)}
-              className="lg:hidden"
+              className="-m-2.5 p-2.5 lg:hidden"
             >
               <MenuIcon />
             </button>
@@ -79,20 +79,18 @@ export function Header() {
             <ul className="mt-2 flex flex-col gap-3">
               {categories.map((name) => (
                 <li key={name}>
-                  <a href="#" onClick={() => setIsMenuOpen(false)}>
-                    {name}
-                  </a>
+                  <a>{name}</a>
                 </li>
               ))}
             </ul>
           </div>
 
-          <a href="#" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2">
+          <a className="flex items-center gap-2">
             <UserIcon />
             Sign in
           </a>
 
-          <a href="#" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2">
+          <a className="flex items-center gap-2">
             <HeartIcon />
             Wishlist
           </a>

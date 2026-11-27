@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import type { Product } from '../product.types';
-import { getGalleryImages, getNextIndex } from './gallery';
+import type { Product } from '@/features/product-details/product.types';
+import { getGalleryImages, getNextIndex } from '@/features/product-details/utils/gallery';
 
 const baseProduct = { thumb: 'a.webp', images: ['b.webp'] } as Product;
 
