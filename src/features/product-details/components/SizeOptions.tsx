@@ -5,7 +5,7 @@ import { SizeChartDrawer } from './SizeChartDrawer';
 
 type SizeOptionsProps = {
   variation: Variation;
-  selected: string;
+  selected?: string; // empty until the shopper picks a size for the chosen color
   onSelect: (option: string) => void;
   isAvailable: (option: string) => boolean;
 };

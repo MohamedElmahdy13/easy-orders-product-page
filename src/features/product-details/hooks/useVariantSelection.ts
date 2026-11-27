@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Product } from '../product.types';
-import { findVariant, getDefaultSelection, getMaxQuantity } from '../utils/variants';
+import { findVariant, getDefaultSelection, getMaxQuantity, selectOption as getSelectionAfterPick } from '../utils/variants';
 import type { Selection } from '../utils/variants';
 
 // Keeps what the shopper picked (color, size, quantity).
@@ -13,7 +13,7 @@ export function useVariantSelection(product: Product) {
   const maxQuantity = getMaxQuantity(product, variant);
 
   function selectOption(variationName: string, option: string) {
-    setSelection((current) => ({ ...current, [variationName]: option }));
+    setSelection((current) => getSelectionAfterPick(product, current, variationName, option));
   }
 
   return {

@@ -6,10 +6,21 @@ export type Selection = Record<string, string>;
 // When the product does not track stock we still need a limit for the quantity selector
 export const MAX_QUANTITY_WITHOUT_STOCK = 10;
 
-// Start with the first option of every variation (first color, first size)
-export function getDefaultSelection(product: Product): Selection {
-  const selection: Selection = {};
+// Can this variant be bought? Without stock tracking every variant can.
+function isPurchasable(product: Product, variant: Variant): boolean {
+  return !product.track_stock || variant.quantity > 0;
+}
 
+function selectionFromVariant(variant: Variant): Selection {
+  return Object.fromEntries(variant.variation_props.map((prop) => [prop.variation, prop.variation_prop]));
+}
+
+// Start with the first variant that can be bought, or the first option of every variation
+export function getDefaultSelection(product: Product): Selection {
+  const firstPurchasable = product.variants.find((variant) => isPurchasable(product, variant));
+  if (firstPurchasable) return selectionFromVariant(firstPurchasable);
+
+  const selection: Selection = {};
   for (const variation of product.variations) {
     selection[variation.name] = variation.props[0].name;
   }
@@ -37,6 +48,8 @@ export function getPrices(product: Product, variant?: Variant) {
 }
 
 export function getMaxQuantity(product: Product, variant?: Variant): number {
+  // The selected options do not match any variant, so there is nothing to buy
+  if (product.variants.length > 0 && !variant) return 0;
   if (!product.track_stock) return MAX_QUANTITY_WITHOUT_STOCK;
 
   return variant ? variant.quantity : product.quantity;
@@ -46,15 +59,46 @@ export function isInStock(product: Product, variant?: Variant): boolean {
   return getMaxQuantity(product, variant) > 0;
 }
 
-// Can this option still be bought together with the other selected options?
-// Without stock tracking everything is available.
+// The first variation (color) is the main choice. The others (size) depend on it.
+function getMainVariationName(product: Product): string {
+  return product.variations[0]?.name ?? '';
+}
+
+// Does the variant have every option in `wanted`?
+function hasOptions(variant: Variant, wanted: Selection): boolean {
+  return Object.entries(wanted).every(([variationName, option]) =>
+    variant.variation_props.some((prop) => prop.variation === variationName && prop.variation_prop === option),
+  );
+}
+
+// A color is available when one of its variants can be bought.
+// A size is available when it can be bought together with the selected color.
 export function isOptionAvailable(product: Product, selection: Selection, variationName: string, option: string): boolean {
-  if (!product.track_stock) return true;
+  const mainName = getMainVariationName(product);
+  const mainOption = selection[mainName];
 
-  const wanted = { ...selection, [variationName]: option };
-  const variant = findVariant(product, wanted);
+  const wanted: Selection =
+    variationName === mainName || !mainOption
+      ? { [variationName]: option }
+      : { [mainName]: mainOption, [variationName]: option };
 
-  return variant ? variant.quantity > 0 : false;
+  return product.variants.some((variant) => isPurchasable(product, variant) && hasOptions(variant, wanted));
+}
+
+// The selection after the shopper picks an option. When the color changes, a chosen size that does
+// not exist for the new color is cleared, so the shopper picks another one.
+export function selectOption(product: Product, selection: Selection, variationName: string, option: string): Selection {
+  const next = { ...selection, [variationName]: option };
+  if (variationName !== getMainVariationName(product)) return next;
+
+  for (const variation of product.variations.slice(1)) {
+    const chosen = next[variation.name];
+    if (chosen && !isOptionAvailable(product, next, variation.name, chosen)) {
+      delete next[variation.name];
+    }
+  }
+
+  return next;
 }
 
 // The API can send the same category twice (with different ids), so list each name once

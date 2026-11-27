@@ -2,7 +2,7 @@ import { Divider } from '@/shared/ui/Divider';
 import { QuantitySelector } from '@/shared/ui/QuantitySelector';
 import { formatPrice } from '@/shared/utils/formatPrice';
 import type { Product, Variant } from '../product.types';
-import { getCategoryNames, getMaxQuantity, getPrices, isInStock, isOptionAvailable } from '../utils/variants';
+import { getCategoryNames, getPrices, isInStock, isOptionAvailable } from '../utils/variants';
 import type { Selection } from '../utils/variants';
 import { AddToCartActions } from './AddToCartActions';
 import { ColorOptions } from './ColorOptions';
@@ -16,9 +16,12 @@ type ProductInfoProps = {
   selection: Selection;
   onSelectOption: (variationName: string, option: string) => void;
   quantity: number;
+  maxQuantity: number;
   onQuantityChange: (quantity: number) => void;
   onAddToCart: () => void;
   onCheckout: () => void;
+  addDisabled: boolean;
+  message: string;
 };
 
 export function ProductInfo({
@@ -27,9 +30,12 @@ export function ProductInfo({
   selection,
   onSelectOption,
   quantity,
+  maxQuantity,
   onQuantityChange,
   onAddToCart,
   onCheckout,
+  addDisabled,
+  message,
 }: ProductInfoProps) {
   const { price, oldPrice } = getPrices(product, variant);
   const inStock = isInStock(product, variant);
@@ -85,7 +91,7 @@ export function ProductInfo({
             <QuantitySelector
               value={quantity}
               onChange={onQuantityChange}
-              max={getMaxQuantity(product, variant)}
+              max={maxQuantity}
               className="self-start"
             />
           </div>
@@ -93,7 +99,13 @@ export function ProductInfo({
       </div>
 
       <div className="mt-12 lg:mt-14">
-        <AddToCartActions disabled={!inStock} onAddToCart={onAddToCart} onCheckout={onCheckout} />
+        <AddToCartActions
+          disabled={!inStock}
+          onAddToCart={onAddToCart}
+          onCheckout={onCheckout}
+          addDisabled={addDisabled}
+          message={message}
+        />
       </div>
 
       {categories.length > 0 && (

@@ -9,6 +9,7 @@ import {
   isInStock,
   isOptionAvailable,
   MAX_QUANTITY_WITHOUT_STOCK,
+  selectOption,
 } from './variants';
 
 function makeVariant(color: string, size: string, overrides: Partial<Variant> = {}): Variant {
@@ -70,8 +71,17 @@ describe('getDefaultSelection', () => {
     expect(getDefaultSelection(product)).toEqual({ color: 'brown', size: '38' });
   });
 
+  it('starts with the first variant that can be bought', () => {
+    const tracked = {
+      ...product,
+      track_stock: true,
+      variants: [makeVariant('brown', '38', { quantity: 0 }), makeVariant('black', '40', { quantity: 3 })],
+    };
+    expect(getDefaultSelection(tracked)).toEqual({ color: 'black', size: '40' });
+  });
+
   it('returns an empty selection when the product has no variations', () => {
-    expect(getDefaultSelection({ ...product, variations: [] })).toEqual({});
+    expect(getDefaultSelection({ ...product, variations: [], variants: [] })).toEqual({});
   });
 });
 
@@ -139,39 +149,86 @@ describe('getMaxQuantity and isInStock', () => {
   });
 
   it('uses the product stock when tracked and there is no variant', () => {
-    expect(getMaxQuantity({ ...product, track_stock: true, quantity: 7 })).toBe(7);
+    expect(getMaxQuantity({ ...product, track_stock: true, quantity: 7, variants: [] })).toBe(7);
+  });
+
+  it('cannot be bought when the selected options match no variant', () => {
+    expect(getMaxQuantity(product, undefined)).toBe(0);
+    expect(isInStock(product, undefined)).toBe(false);
+    expect(isInStock({ ...product, track_stock: true }, undefined)).toBe(false);
   });
 });
 
+// brown/38 and black/40 are in stock, brown/40 and black/38 are sold out
+const tracked: Product = {
+  ...product,
+  track_stock: true,
+  variants: [
+    makeVariant('brown', '38', { quantity: 2 }),
+    makeVariant('brown', '40', { quantity: 0 }),
+    makeVariant('black', '38', { quantity: 0 }),
+    makeVariant('black', '40', { quantity: 5 }),
+  ],
+};
+
 describe('isOptionAvailable', () => {
-  const tracked: Product = {
-    ...product,
-    track_stock: true,
-    variants: [
-      makeVariant('brown', '38', { quantity: 2 }),
-      makeVariant('brown', '40', { quantity: 0 }),
-      makeVariant('black', '38', { quantity: 0 }),
-      makeVariant('black', '40', { quantity: 5 }),
-    ],
-  };
+  const brown38 = { color: 'brown', size: '38' };
 
-  it('is always available when stock is not tracked', () => {
-    expect(isOptionAvailable(product, { color: 'brown', size: '38' }, 'size', '40')).toBe(true);
+  it('is available when stock is not tracked', () => {
+    expect(isOptionAvailable(product, brown38, 'size', '40')).toBe(true);
+    expect(isOptionAvailable(product, brown38, 'color', 'black')).toBe(true);
   });
 
-  it('disables a size that is out of stock for the selected color', () => {
-    const selection = { color: 'brown', size: '38' };
-    expect(isOptionAvailable(tracked, selection, 'size', '38')).toBe(true);
-    expect(isOptionAvailable(tracked, selection, 'size', '40')).toBe(false);
+  it('keeps a color available when one of its variants is in stock', () => {
+    expect(isOptionAvailable(tracked, brown38, 'color', 'black')).toBe(true);
   });
 
-  it('disables a color that is out of stock for the selected size', () => {
-    const selection = { color: 'brown', size: '38' };
-    expect(isOptionAvailable(tracked, selection, 'color', 'black')).toBe(false);
+  it('disables a color when all its variants are sold out', () => {
+    const soldOutBlack = {
+      ...tracked,
+      variants: tracked.variants.map((v) => (v.id.startsWith('black') ? { ...v, quantity: 0 } : v)),
+    };
+    expect(isOptionAvailable(soldOutBlack, brown38, 'color', 'black')).toBe(false);
   });
 
-  it('is not available when no variant matches', () => {
-    expect(isOptionAvailable(tracked, { color: 'brown', size: '38' }, 'size', '44')).toBe(false);
+  it('disables a size that is sold out for the selected color', () => {
+    expect(isOptionAvailable(tracked, brown38, 'size', '38')).toBe(true);
+    expect(isOptionAvailable(tracked, brown38, 'size', '40')).toBe(false);
+    expect(isOptionAvailable(tracked, { color: 'black' }, 'size', '40')).toBe(true);
+    expect(isOptionAvailable(tracked, { color: 'black' }, 'size', '38')).toBe(false);
+  });
+
+  it('is not available when no variant has that option', () => {
+    expect(isOptionAvailable(tracked, brown38, 'size', '44')).toBe(false);
+  });
+});
+
+describe('selectOption', () => {
+  it('keeps the size when the new color has it in stock', () => {
+    expect(selectOption(product, { color: 'brown', size: '38' }, 'color', 'black')).toEqual({ color: 'black', size: '38' });
+  });
+
+  it('clears the size when the new color does not have it, without picking another one', () => {
+    expect(selectOption(tracked, { color: 'brown', size: '38' }, 'color', 'black')).toEqual({ color: 'black' });
+  });
+
+  it('only changes the size when the size is picked', () => {
+    expect(selectOption(tracked, { color: 'black' }, 'size', '40')).toEqual({ color: 'black', size: '40' });
+  });
+
+  it('can reach every variant that can be bought: pick its color, then its size', () => {
+    for (const variant of tracked.variants.filter((v) => v.quantity > 0)) {
+      const color = variant.variation_props.find((p) => p.variation === 'color')!.variation_prop;
+      const size = variant.variation_props.find((p) => p.variation === 'size')!.variation_prop;
+
+      let selection = getDefaultSelection(tracked);
+      expect(isOptionAvailable(tracked, selection, 'color', color)).toBe(true);
+      selection = selectOption(tracked, selection, 'color', color);
+      expect(isOptionAvailable(tracked, selection, 'size', size)).toBe(true);
+      selection = selectOption(tracked, selection, 'size', size);
+
+      expect(findVariant(tracked, selection)?.id).toBe(variant.id);
+    }
   });
 });
 

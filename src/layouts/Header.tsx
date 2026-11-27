@@ -1,16 +1,24 @@
+import { useState } from 'react';
 import logo from '@/assets/logo.png';
+import { CartButton } from '@/features/cart';
 import {
-  CartIcon,
   ChevronDownIcon,
   HeartIcon,
   MenuIcon,
   SearchIcon,
   UserIcon,
 } from '@/shared/ui/icons';
+import { Drawer } from '@/shared/ui/Drawer';
+import { Dropdown } from '@/shared/ui/Dropdown';
+
+// The API only returns the categories of one product, so the menu uses a fixed list
+const categories = ['Mules', 'Women heels', 'Moc Toe Boots', 'Sneakers', 'Sandals'];
 
 const textLinkClass = 'hidden items-center gap-1 text-base leading-[1.6] font-medium lg:flex';
 
 export function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <>
       <header className="container-page py-7.75">
@@ -28,10 +36,18 @@ export function Header() {
               <SearchIcon />
             </button>
 
-            <button type="button" className={textLinkClass}>
-              Categories
-              <ChevronDownIcon />
-            </button>
+            <Dropdown
+              className="hidden lg:block"
+              buttonClassName="flex items-center gap-1 text-base leading-[1.6] font-medium"
+              anchor="bottom end"
+              button={
+                <>
+                  Categories
+                  <ChevronDownIcon />
+                </>
+              }
+              items={categories.map((name) => ({ label: name }))}
+            />
 
             <a href="#" className={textLinkClass}>
               <UserIcon />
@@ -42,17 +58,46 @@ export function Header() {
               <HeartIcon />
             </a>
 
-            {/* Replaced by CartButton (with the item count badge) in the cart feature */}
-            <button type="button" aria-label="Cart">
-              <CartIcon />
-            </button>
+            <CartButton />
 
-            <button type="button" aria-label="Open menu" className="lg:hidden">
+            <button
+              type="button"
+              aria-label="Open menu"
+              onClick={() => setIsMenuOpen(true)}
+              className="lg:hidden"
+            >
               <MenuIcon />
             </button>
           </nav>
         </div>
       </header>
+
+      <Drawer open={isMenuOpen} onClose={() => setIsMenuOpen(false)} title="Menu">
+        <nav aria-label="Mobile" className="flex flex-col gap-6 text-label font-medium text-heading">
+          <div>
+            <p className="text-sm text-subtle">Categories</p>
+            <ul className="mt-2 flex flex-col gap-3">
+              {categories.map((name) => (
+                <li key={name}>
+                  <a href="#" onClick={() => setIsMenuOpen(false)}>
+                    {name}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <a href="#" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2">
+            <UserIcon />
+            Sign in
+          </a>
+
+          <a href="#" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-2">
+            <HeartIcon />
+            Wishlist
+          </a>
+        </nav>
+      </Drawer>
     </>
   );
 }

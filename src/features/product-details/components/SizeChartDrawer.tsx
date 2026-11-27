@@ -13,7 +13,7 @@ type SizeChartDrawerProps = {
   open: boolean;
   onClose: () => void;
   sizes: string[];
-  selected: string;
+  selected?: string;
 };
 
 export function SizeChartDrawer({ open, onClose, sizes, selected }: SizeChartDrawerProps) {
