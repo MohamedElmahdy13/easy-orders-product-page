@@ -14,7 +14,7 @@ Choosing a quantity and putting the selected variant in the cart.
 
 ## Buttons
 
-- **Add To Cart** adds the item and shows "Added to cart ✓" for 2 seconds. The message sits under the buttons, so the page does not move, and it is announced to screen readers (`role="status"`).
+- **Add To Cart** adds the item and shows "Added to cart ✓" for 2 seconds (`useTemporaryMessage`). Clicking again restarts the 2 seconds, so the message does not disappear too early. The message sits under the buttons, so the page does not move, and it is announced to screen readers (`role="status"`).
 - **Checkout Now** adds the item and opens the cart drawer. There is no checkout step in this project.
 
 The item sent to the cart has the id `product.id:variant.id`, the product name and image, the unit price of the selected variant, the chosen color and size, the quantity and the maximum quantity.

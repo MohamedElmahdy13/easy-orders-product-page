@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { useCartStore } from '@/features/cart';
+import { useTemporaryMessage } from '@/shared/hooks/useTemporaryMessage';
 import { Button } from '@/shared/ui/Button';
 import { Skeleton } from '@/shared/ui/Skeleton';
 import { useProduct } from '../hooks/useProduct';
@@ -49,7 +49,7 @@ function ProductContent({ product }: { product: Product }) {
 
   const addItem = useCartStore((state) => state.addItem);
   const openCart = useCartStore((state) => state.openCart);
-  const [justAdded, setJustAdded] = useState(false);
+  const [addedMessage, showAddedMessage] = useTemporaryMessage();
 
   // How many of this exact variant are already in the cart
   const itemId = `${product.id}:${variant?.id ?? 'default'}`;
@@ -61,16 +61,9 @@ function ProductContent({ product }: { product: Product }) {
   const remaining = Math.max(maxQuantity - quantityInCart, 0);
   const quantityToAdd = Math.max(1, Math.min(quantity, remaining));
 
-  let message = '';
-  if (justAdded) message = 'Added to cart ✓';
-  else if (isMaxInCart) message = 'You already have the maximum quantity in your cart';
-
-  // Hide the "Added to cart" message after 2 seconds
-  useEffect(() => {
-    if (!justAdded) return;
-    const timer = setTimeout(() => setJustAdded(false), 2000);
-    return () => clearTimeout(timer);
-  }, [justAdded]);
+  // "Added to cart" goes away by itself. The maximum message stays while it is true.
+  let message = addedMessage;
+  if (!message && isMaxInCart) message = 'You already have the maximum quantity in your cart';
 
   function addToCart() {
     addItem({
@@ -88,7 +81,7 @@ function ProductContent({ product }: { product: Product }) {
 
   function handleAddToCart() {
     addToCart();
-    setJustAdded(true);
+    showAddedMessage('Added to cart ✓');
   }
 
   function handleCheckout() {
