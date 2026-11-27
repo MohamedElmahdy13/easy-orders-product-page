@@ -1,6 +1,6 @@
 # Architecture
 
-A small feature-based setup: three features (`product-details`, `cart` and `wishlist`), a `shared` layer, layouts and one page.
+A small feature-based setup: four features (`product-details`, `cart`, `wishlist` and `reviews`), a `shared` layer, layouts and one page.
 
 ```
 src/
@@ -13,13 +13,17 @@ src/
       api/             product.api.ts          getProductBySlug (fetch + VITE_API_URL)
       components/      ProductDetails, ProductGallery, ProductInfo, ...
       hooks/           useProduct, useVariantSelection
-      utils/           variants.ts, gallery.ts, description.ts
+      utils/           variants.ts, categories.ts, gallery.ts, description.ts
       product.types.ts
       index.ts
     cart/
       components/      CartButton, CartDrawer, CartItem, EmptyCart
       store/           cartStore.ts
       cart.types.ts
+    reviews/
+      components/      ProductReviews, ReviewSummary, ReviewFilters, ReviewCard, ReviewPagination, StarRating
+      utils/           reviews.ts, exampleReviews.ts
+      reviews.types.ts
     wishlist/
       components/      WishlistToggle, WishlistButton, WishlistDrawer, WishlistItem, EmptyWishlist
       store/           wishlistStore.ts
@@ -33,7 +37,7 @@ src/
 e2e/cart.spec.ts       Playwright
 ```
 
-Page responsibilities: `App` (providers) > `MainLayout` (header, footer, announcement bar, cart drawer, wishlist drawer) > `ProductDetailsPage` (breadcrumb and the product) > `ProductDetails` (loading, error, selection) > `ProductGallery` and `ProductInfo`.
+Page responsibilities: `App` (providers) > `MainLayout` (header, footer, announcement bar, cart drawer, wishlist drawer) > `ProductDetailsPage` (breadcrumb, the product and the reviews section) > `ProductDetails` (loading, error, selection) > `ProductGallery` and `ProductInfo`.
 
 ## Rules
 

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
+import { safeStorage } from '@/shared/utils/safeStorage';
 import type { WishlistItem } from '../wishlist.types';
 
 type WishlistState = {
@@ -12,31 +13,6 @@ type WishlistState = {
   openWishlist: () => void;
   closeWishlist: () => void;
 };
-
-// localStorage can be blocked or full. The wishlist must keep working, it just will not be saved.
-const safeStorage = createJSONStorage(() => ({
-  getItem: (name) => {
-    try {
-      return localStorage.getItem(name);
-    } catch {
-      return null;
-    }
-  },
-  setItem: (name, value) => {
-    try {
-      localStorage.setItem(name, value);
-    } catch {
-      // not saved, nothing else to do
-    }
-  },
-  removeItem: (name) => {
-    try {
-      localStorage.removeItem(name);
-    } catch {
-      // nothing to remove
-    }
-  },
-}));
 
 // What was saved in the browser could be old or edited, so only keep lines that look like wishlist items
 function isWishlistItem(value: unknown): value is WishlistItem {

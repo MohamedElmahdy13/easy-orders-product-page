@@ -24,6 +24,7 @@ Only the fields the page uses are typed, in `product.types.ts`:
 - The images from the API do not match the color swatches, so choosing a color does not change the gallery.
 - Categories come as a flat list and may repeat, so duplicates are removed and the API order is kept.
 - The API has no size chart data, so the size chart shows example values.
+- `join=reviews` does not return any reviews, so the reviews section shows example reviews (see [reviews](features/reviews.md)).
 
 ## Known limits
 

@@ -20,4 +20,5 @@ Start with the [architecture](ARCHITECTURE.md), then read the part you need.
 | [Variations](features/variations.md) | Color and size selection, availability, size chart |
 | [Add to cart](features/add-to-cart.md) | Quantity, limits, Add To Cart and Checkout Now |
 | [Cart](features/cart.md) | Cart store, badge, drawer and persistence |
+| [Reviews](features/reviews.md) | Reviews section with example data, filters and pagination |
 | [Wishlist](features/wishlist.md) | Wishlist store, heart button, header counter and drawer |

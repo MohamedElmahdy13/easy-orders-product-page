@@ -45,4 +45,17 @@ describe('moving a wishlist item to the cart', () => {
 
     expect(useCartStore.getState().items).toEqual([{ ...shoe, quantity: 3 }]);
   });
+
+  it('shows the count and opens the drawer from the mobile menu', async () => {
+    const user = userEvent.setup();
+    render(<MainLayout>page</MainLayout>);
+
+    await user.click(screen.getByRole('button', { name: 'Open menu' }));
+    const menu = screen.getByRole('dialog');
+    expect(within(menu).getByText('1')).toBeInTheDocument();
+
+    await user.click(within(menu).getByRole('button', { name: 'Wishlist, 1 items' }));
+
+    expect(screen.getByRole('dialog', { name: 'Your Wishlist' })).toBeInTheDocument();
+  });
 });

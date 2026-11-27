@@ -14,6 +14,7 @@ React 19 and TypeScript (strict), Vite, Tailwind CSS v4, Zustand with Immer and 
 - **Product info:** name, regular and sale price, stock status ("In stock", "Only N left", "Out of stock"), sanitized description with See More / See Less.
 - **Variations:** color and size. Color is the main variation, and sizes depend on it, so a combination that does not exist or has no stock cannot be picked. The price and stock follow the selected variant.
 - **Add to cart:** quantity selector limited by stock, "Added to cart" message, and the cart badge in the header. The cart never goes above the maximum for a variant.
+- **Reviews:** a section under the product with the rating summary, rating and topic filters, tabs and pagination. The API has no reviews, so it shows example reviews and says so.
 - **Wishlist:** the heart on the product page saves the selected color and size. The header heart shows a counter and opens a drawer where you can remove items or move them to the cart. It is saved in `localStorage`.
 - **Cart drawer:** opens from the header or from "Checkout Now". Change the quantity, remove an item, see the total, and an empty state. The cart is saved in `localStorage` and survives a reload.
 - **Responsive:** mobile first, two columns from tablet width, fixed 1200px layout on desktop.
@@ -57,6 +58,7 @@ src/
     product-details/   api, components, hooks, utils, types
     cart/              store, components, types
     wishlist/          store, components
+    reviews/           components, example data, filter helpers
   shared/
     ui/                Button, Drawer, Dropdown, QuantitySelector, ...
     utils/             cn, formatPrice, capitalize
@@ -96,7 +98,7 @@ The `docs/` folder has the full documentation, see [docs/README.md](docs/README.
 
 - [Architecture](docs/ARCHITECTURE.md), [state management](docs/state-management.md), [API](docs/api.md), [testing](docs/testing.md)
 - [App, page and layouts](docs/app.md) and [shared components](docs/shared.md)
-- Features: [gallery](docs/features/product-gallery.md), [product info](docs/features/product-info.md), [variations](docs/features/variations.md), [add to cart](docs/features/add-to-cart.md), [cart](docs/features/cart.md), [wishlist](docs/features/wishlist.md)
+- Features: [gallery](docs/features/product-gallery.md), [product info](docs/features/product-info.md), [variations](docs/features/variations.md), [add to cart](docs/features/add-to-cart.md), [cart](docs/features/cart.md), [wishlist](docs/features/wishlist.md), [reviews](docs/features/reviews.md)
 
 ## Deployment (Vercel)
 
@@ -109,6 +111,7 @@ The `docs/` folder has the full documentation, see [docs/README.md](docs/README.
 - A variant `sale_price` of `0` means the variant has no sale of its own, so the product's `sale_price` is used.
 - When a product does not track stock, the maximum quantity is 10. This limit is our own choice.
 - The product has no size chart data in the API, so the size chart shows example values.
+- The API returns no reviews, so the reviews section shows example reviews (labelled as such on the page).
 - The images from the API do not match the color swatches, so selecting a color changes the swatch and the price, not the gallery.
 - Categories are shown in the breadcrumb in the order the API returns them (duplicates removed).
 - Cart items keep the price and the stock limit from the moment they were added.

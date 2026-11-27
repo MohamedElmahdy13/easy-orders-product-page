@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import logo from '@/assets/logo.png';
 import { CartButton } from '@/features/cart';
-import { WishlistButton, useWishlistStore } from '@/features/wishlist';
+import { WishlistButton, selectWishlistCount, useWishlistStore } from '@/features/wishlist';
 import {
   ChevronDownIcon,
   HeartIcon,
@@ -9,6 +9,7 @@ import {
   SearchIcon,
   UserIcon,
 } from '@/shared/ui/icons';
+import { Badge } from '@/shared/ui/Badge';
 import { Drawer } from '@/shared/ui/Drawer';
 import { Dropdown } from '@/shared/ui/Dropdown';
 
@@ -20,6 +21,7 @@ const textLinkClass = 'hidden items-center gap-1 text-base leading-[1.6] font-me
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const openWishlist = useWishlistStore((state) => state.openWishlist);
+  const wishlistCount = useWishlistStore(selectWishlistCount);
 
   return (
     <>
@@ -92,13 +94,17 @@ export function Header() {
 
           <button
             type="button"
+            aria-label={`Wishlist, ${wishlistCount} items`}
             onClick={() => {
               setIsMenuOpen(false);
               openWishlist();
             }}
             className="flex items-center gap-2"
           >
-            <HeartIcon />
+            <span className="relative block">
+              <HeartIcon />
+              <Badge count={wishlistCount} className="absolute -top-1 -right-1.5" />
+            </span>
             Wishlist
           </button>
         </nav>

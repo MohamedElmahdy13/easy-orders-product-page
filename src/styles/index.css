@@ -17,6 +17,12 @@
   --color-divider: #a3a3a3;
   --color-border-strong: #b8b8b8;
   --color-star: #ffa439;
+  /* Reviews section */
+  --color-black-soft: #0b0f0e; /* rating numbers, names */
+  --color-cool-gray: #81889c; /* review dates, filter options */
+  --color-control: #c4c8cc; /* checkbox border */
+  --color-track: #e4e9ee; /* rating bar track, like buttons, page buttons */
+  --color-page-number: #7a7a7a;
 
   /* Type scale (size / line-height / letter-spacing) */
   --text-title: 2.25rem; /* 36px: product title */

@@ -20,7 +20,7 @@ Lets the shopper choose a color and a size. Only combinations that exist and can
 | `useVariantSelection(product)` | Keeps the selection and the quantity. The variant and the max quantity are calculated from them. |
 | `findVariant` | The variant that matches every selected option. |
 | `isOptionAvailable` | Whether a color or size can be picked now. |
-| `selectOption` | The new selection after a pick (clears a size that no longer fits). |
+| `getSelectionAfterPick` | The new selection after a pick (clears a size that no longer fits). |
 | `ColorOptions` | Swatches with the selected color name. `aria-pressed` marks the selected one. |
 | `SizeOptions` | Size buttons, unavailable ones are crossed out. Has a "View Size Chart" link. |
 | `SizeChartDrawer` | Drawer with a size table. The values are examples (the drawer says so) because the API has no size chart. |
