@@ -109,6 +109,22 @@ describe('cart flow', () => {
     expect(within(drawer).getByText('Your cart is empty')).toBeInTheDocument();
   });
 
+  it('clears the whole cart from the drawer', async () => {
+    const user = userEvent.setup();
+    renderPage();
+
+    await user.click(await screen.findByRole('button', { name: 'Add To Cart' }));
+    await user.click(screen.getByRole('button', { name: '40' }));
+    await user.click(screen.getByRole('button', { name: 'Add To Cart' }));
+    await user.click(screen.getByRole('button', { name: /^Cart, 2 item/ }));
+
+    const drawer = await screen.findByRole('dialog');
+    await user.click(within(drawer).getByRole('button', { name: 'Clear cart' }));
+
+    expect(within(drawer).getByText('Your cart is empty')).toBeInTheDocument();
+    expect(within(drawer).queryByRole('button', { name: 'Clear cart' })).not.toBeInTheDocument();
+  });
+
   it('adds the product and opens the drawer on Checkout Now', async () => {
     const user = userEvent.setup();
     renderPage();

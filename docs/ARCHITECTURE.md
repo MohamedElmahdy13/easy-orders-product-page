@@ -1,6 +1,6 @@
 # Architecture
 
-A small feature-based setup: two features (`product-details` and `cart`), a `shared` layer, layouts and one page.
+A small feature-based setup: three features (`product-details`, `cart` and `wishlist`), a `shared` layer, layouts and one page.
 
 ```
 src/
@@ -20,6 +20,10 @@ src/
       components/      CartButton, CartDrawer, CartItem, EmptyCart
       store/           cartStore.ts
       cart.types.ts
+    wishlist/
+      components/      WishlistToggle, WishlistButton, WishlistDrawer, WishlistItem, EmptyWishlist
+      store/           wishlistStore.ts
+      wishlist.types.ts
       index.ts
   shared/
     ui/                generic components
@@ -29,11 +33,11 @@ src/
 e2e/cart.spec.ts       Playwright
 ```
 
-Page responsibilities: `App` (providers) > `MainLayout` (header, footer, announcement bar, cart drawer) > `ProductDetailsPage` (breadcrumb and the product) > `ProductDetails` (loading, error, selection) > `ProductGallery` and `ProductInfo`.
+Page responsibilities: `App` (providers) > `MainLayout` (header, footer, announcement bar, cart drawer, wishlist drawer) > `ProductDetailsPage` (breadcrumb and the product) > `ProductDetails` (loading, error, selection) > `ProductGallery` and `ProductInfo`.
 
 ## Rules
 
-- `shared` never imports from a feature. A feature never reaches into another feature's files, only its `index.ts` (the `cart` feature does not import `product-details`).
+- `shared` never imports from a feature. A feature never reaches into another feature's files, only its `index.ts` (`cart` and `wishlist` do not import `product-details`).
 - Layouts and pages use features through their `index.ts` only.
 - Generic components in `shared/ui` own their sizing and styling (variants), not the places that use them.
 - A container only sets the width and `margin: auto` (`container-page`). Vertical spacing is padding on the section around it.

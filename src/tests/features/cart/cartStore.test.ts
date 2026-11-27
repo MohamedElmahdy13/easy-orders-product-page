@@ -16,7 +16,7 @@ const shoe: CartItem = {
 
 const otherShoe: CartItem = { ...shoe, id: 'p1:v2', size: '40', price: 50 };
 
-const { addItem, setQuantity, removeItem, openCart, closeCart } = useCartStore.getState();
+const { addItem, setQuantity, removeItem, clearCart, openCart, closeCart } = useCartStore.getState();
 
 beforeEach(() => {
   useCartStore.setState({ items: [], isOpen: false });
@@ -79,6 +79,14 @@ describe('cartStore', () => {
     const { items } = useCartStore.getState();
     expect(items).toHaveLength(1);
     expect(items[0].id).toBe(otherShoe.id);
+  });
+
+  it('clears the whole cart', () => {
+    addItem(shoe);
+    addItem(otherShoe);
+    clearCart();
+
+    expect(useCartStore.getState().items).toEqual([]);
   });
 
   it('calculates the count and the total', () => {

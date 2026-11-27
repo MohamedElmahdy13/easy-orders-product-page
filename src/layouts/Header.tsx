@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import logo from '@/assets/logo.png';
 import { CartButton } from '@/features/cart';
+import { WishlistButton, useWishlistStore } from '@/features/wishlist';
 import {
   ChevronDownIcon,
   HeartIcon,
@@ -18,6 +19,7 @@ const textLinkClass = 'hidden items-center gap-1 text-base leading-[1.6] font-me
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const openWishlist = useWishlistStore((state) => state.openWishlist);
 
   return (
     <>
@@ -54,9 +56,7 @@ export function Header() {
               Sign in
             </a>
 
-            <a aria-label="Wishlist" className="hidden lg:block">
-              <HeartIcon />
-            </a>
+            <WishlistButton className="hidden lg:block" />
 
             <CartButton />
 
@@ -90,10 +90,17 @@ export function Header() {
             Sign in
           </a>
 
-          <a className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setIsMenuOpen(false);
+              openWishlist();
+            }}
+            className="flex items-center gap-2"
+          >
             <HeartIcon />
             Wishlist
-          </a>
+          </button>
         </nav>
       </Drawer>
     </>

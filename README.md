@@ -14,6 +14,7 @@ React 19 and TypeScript (strict), Vite, Tailwind CSS v4, Zustand with Immer and 
 - **Product info:** name, regular and sale price, stock status ("In stock", "Only N left", "Out of stock"), sanitized description with See More / See Less.
 - **Variations:** color and size. Color is the main variation, and sizes depend on it, so a combination that does not exist or has no stock cannot be picked. The price and stock follow the selected variant.
 - **Add to cart:** quantity selector limited by stock, "Added to cart" message, and the cart badge in the header. The cart never goes above the maximum for a variant.
+- **Wishlist:** the heart on the product page saves the selected color and size. The header heart shows a counter and opens a drawer where you can remove items or move them to the cart. It is saved in `localStorage`.
 - **Cart drawer:** opens from the header or from "Checkout Now". Change the quantity, remove an item, see the total, and an empty state. The cart is saved in `localStorage` and survives a reload.
 - **Responsive:** mobile first, two columns from tablet width, fixed 1200px layout on desktop.
 - **Errors and loading:** skeleton while loading, and an error message with "Try again" when the request fails.
@@ -55,6 +56,7 @@ src/
   features/
     product-details/   api, components, hooks, utils, types
     cart/              store, components, types
+    wishlist/          store, components
   shared/
     ui/                Button, Drawer, Dropdown, QuantitySelector, ...
     utils/             cn, formatPrice, capitalize
@@ -94,7 +96,7 @@ The `docs/` folder has the full documentation, see [docs/README.md](docs/README.
 
 - [Architecture](docs/ARCHITECTURE.md), [state management](docs/state-management.md), [API](docs/api.md), [testing](docs/testing.md)
 - [App, page and layouts](docs/app.md) and [shared components](docs/shared.md)
-- Features: [gallery](docs/features/product-gallery.md), [product info](docs/features/product-info.md), [variations](docs/features/variations.md), [add to cart](docs/features/add-to-cart.md), [cart](docs/features/cart.md)
+- Features: [gallery](docs/features/product-gallery.md), [product info](docs/features/product-info.md), [variations](docs/features/variations.md), [add to cart](docs/features/add-to-cart.md), [cart](docs/features/cart.md), [wishlist](docs/features/wishlist.md)
 
 ## Deployment (Vercel)
 
@@ -113,6 +115,6 @@ The `docs/` folder has the full documentation, see [docs/README.md](docs/README.
 - The API response is not validated at runtime, and only this product (colors and sizes) is covered.
 - On a 320px wide phone the Add To Cart button can be 1px wider than the screen (its width comes from the design).
 - The grey label color (`#8f8f8f`) comes from the design and is below the 4.5:1 text contrast ratio.
-- Search, Sign in, wishlist, the language and currency menus, and the newsletter form are only there to match the design and do not do anything yet.
+- Search, Sign in, the language and currency menus, and the newsletter form are only there to match the design and do not do anything yet.
 - No memoization (`memo`, `useMemo`, `useCallback`): the page is small, nothing was measured as slow, and it keeps the code simple.
 - Touch targets: the header icons have a 40px tap area. Quantity buttons and options keep the sizes from the Figma design.

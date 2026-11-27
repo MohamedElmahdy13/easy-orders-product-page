@@ -13,6 +13,7 @@ Zustand with Immer and `persist`.
 | `addItem(item)` | Adds a line, or adds to the quantity when the same variant is already there. Refreshes `maxQuantity` with the current stock. |
 | `setQuantity(id, quantity)` | Sets the quantity, kept between 1 and `maxQuantity`. |
 | `removeItem(id)` | Removes the line. |
+| `clearCart()` | Removes every line. |
 | `openCart()` / `closeCart()` | Shows or hides the drawer. |
 | `selectCartCount` | Total number of units. |
 | `selectCartTotal` | Sum of price times quantity. |
@@ -32,7 +33,7 @@ The saved `maxQuantity` is a snapshot. It is refreshed with the current stock wh
 | Component | What it does |
 | --- | --- |
 | `CartButton` | Header icon with a badge showing the count (hidden at 0). Its label is "Cart, N items". Opens the drawer. |
-| `CartDrawer` | The drawer: list of items and the total in the footer, or the empty state. Rendered once in `MainLayout`. |
+| `CartDrawer` | The drawer: list of items, and in the footer the total and a "Clear cart" link, or the empty state. Rendered once in `MainLayout`. |
 | `CartItem` | Image, name, color and size, quantity selector (limited by `maxQuantity`), line price and a remove button. |
 | `EmptyCart` | "Your cart is empty" message. |
 

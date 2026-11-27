@@ -9,6 +9,7 @@ type CartState = {
   addItem: (item: CartItem) => void;
   setQuantity: (id: string, quantity: number) => void;
   removeItem: (id: string) => void;
+  clearCart: () => void;
   openCart: () => void;
   closeCart: () => void;
 };
@@ -84,6 +85,11 @@ export const useCartStore = create<CartState>()(
       removeItem: (id) =>
         set((state) => {
           state.items = state.items.filter((i) => i.id !== id);
+        }),
+
+      clearCart: () =>
+        set((state) => {
+          state.items = [];
         }),
 
       openCart: () => set({ isOpen: true }),
