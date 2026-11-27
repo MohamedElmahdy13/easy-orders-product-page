@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { PointerEvent } from 'react';
+import type { KeyboardEvent, PointerEvent } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon, HeartIcon, ShareIcon } from '@/shared/ui/icons';
 import { useTemporaryMessage } from '@/shared/hooks/useTemporaryMessage';
 import { IconButton } from '@/shared/ui/IconButton';
@@ -33,6 +33,23 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
     });
   }
 
+  // Left and right arrows change the image and Escape zooms out. This only works while the focus is
+  // inside the gallery, and up and down are left alone so the page can still be scrolled.
+  function handleKeyDown(event: KeyboardEvent<HTMLDivElement>) {
+    // Alt or Cmd with an arrow is the browser's back and forward, so do not touch it
+    if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return;
+
+    if (event.key === 'Escape' && isZoomed) {
+      setIsZoomed(false);
+    } else if (images.length > 1 && event.key === 'ArrowLeft') {
+      event.preventDefault();
+      selectImage(getNextIndex(selectedIndex, images.length, -1));
+    } else if (images.length > 1 && event.key === 'ArrowRight') {
+      event.preventDefault();
+      selectImage(getNextIndex(selectedIndex, images.length, 1));
+    }
+  }
+
   async function handleShare() {
     const url = window.location.href;
 
@@ -55,7 +72,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
   }
 
   return (
-    <div className="flex flex-col gap-5 lg:gap-6">
+    <div role="group" aria-label="Product images" onKeyDown={handleKeyDown} className="flex flex-col gap-5 lg:gap-6">
       <div className="flex gap-3 lg:gap-[35px]">
         <button
           type="button"
