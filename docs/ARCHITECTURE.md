@@ -20,10 +20,12 @@ src/
       components/      CartButton, CartDrawer, CartItem, EmptyCart
       store/           cartStore.ts
       cart.types.ts
+      index.ts
     reviews/
       components/      ProductReviews, ReviewSummary, ReviewFilters, ReviewCard, ReviewPagination, StarRating
       utils/           reviews.ts, exampleReviews.ts
       reviews.types.ts
+      index.ts
     wishlist/
       components/      WishlistToggle, WishlistButton, WishlistDrawer, WishlistItem, EmptyWishlist
       store/           wishlistStore.ts
@@ -31,7 +33,8 @@ src/
       index.ts
   shared/
     ui/                generic components
-    utils/             cn, formatPrice, capitalize
+    hooks/             useTemporaryMessage
+    utils/             cn, formatPrice, capitalize, safeStorage
   styles/index.css     Tailwind @theme tokens and fonts
   tests/               all tests, same folders as the code they test
 e2e/cart.spec.ts       Playwright

@@ -60,12 +60,16 @@ export function ProductReviews() {
     <section aria-labelledby="reviews-title" className="flex flex-col gap-9 lg:gap-8">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-4 lg:gap-6">
-          <h2
-            id="reviews-title"
-            className="text-2xl leading-[1.4] font-semibold tracking-[-0.2px] text-ink lg:text-[28px] lg:leading-[1.2] lg:tracking-normal"
-          >
-            Product Reviews
-          </h2>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+            <h2
+              id="reviews-title"
+              className="text-2xl leading-[1.4] font-semibold tracking-[-0.2px] text-ink lg:text-[28px] lg:leading-[1.2] lg:tracking-normal"
+            >
+              Product Reviews
+            </h2>
+            {/* The API has no reviews, so the list is example data */}
+            <p className="text-xs leading-[1.6] text-muted lg:text-sm">Example reviews for this demo.</p>
+          </div>
 
           <ReviewSummary {...summary} />
         </div>
