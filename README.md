@@ -2,7 +2,7 @@
 
 A responsive, mobile-first product detail page with variations and a persistent cart drawer, built for the Easy Orders frontend assessment.
 
-**Demo:** _add the Vercel link here after deploying_
+**Demo:** https://easy-orders-product-page.vercel.app/
 
 ## Tech stack
 

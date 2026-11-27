@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 import { ProductGallery } from '@/features/product-details/components/ProductGallery';
@@ -44,6 +44,35 @@ describe('ProductGallery', () => {
     await user.click(screen.getByRole('button', { name: 'Zoom in' }));
     await user.click(screen.getByRole('button', { name: 'Show image 2' }));
     expect(screen.getByRole('button', { name: 'Zoom in' })).toBeInTheDocument();
+  });
+
+  it('moves the zoom point with the pointer, so a finger can move the zoomed image', async () => {
+    const user = userEvent.setup();
+    renderGallery();
+    const zoomButton = screen.getByRole('button', { name: 'Zoom in' });
+    // jsdom has no layout, so give the button a 400 x 600 box at the top left
+    zoomButton.getBoundingClientRect = () => ({ left: 0, top: 0, width: 400, height: 600 }) as DOMRect;
+    const image = screen.getByAltText('Boot, image 1 of 3');
+
+    await user.click(zoomButton);
+    expect(zoomButton).toHaveClass('touch-none');
+
+    fireEvent.pointerMove(zoomButton, { clientX: 100, clientY: 450 });
+    expect(image).toHaveStyle({ transformOrigin: '25% 75%' });
+
+    fireEvent.pointerMove(zoomButton, { clientX: 300, clientY: 150 });
+    expect(image).toHaveStyle({ transformOrigin: '75% 25%' });
+  });
+
+  it('zooms in where the shopper touched, and does not block page scroll when not zoomed', () => {
+    renderGallery();
+    const zoomButton = screen.getByRole('button', { name: 'Zoom in' });
+    zoomButton.getBoundingClientRect = () => ({ left: 0, top: 0, width: 400, height: 600 }) as DOMRect;
+
+    expect(zoomButton).not.toHaveClass('touch-none');
+
+    fireEvent.pointerDown(zoomButton, { clientX: 400, clientY: 0 });
+    expect(screen.getByAltText('Boot, image 1 of 3')).toHaveStyle({ transformOrigin: '100% 0%' });
   });
 
   it('hides the previous and next buttons when there is only one image', () => {
