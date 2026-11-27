@@ -1,6 +1,6 @@
-import { Providers } from '@/app/providers'
-import { MainLayout } from '@/layouts/MainLayout'
-import { ProductDetailsPage } from '@/pages/ProductDetailsPage'
+import { Providers } from '@/app/providers';
+import { MainLayout } from '@/layouts/MainLayout';
+import { ProductDetailsPage } from '@/pages/ProductDetailsPage';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
         <ProductDetailsPage />
       </MainLayout>
     </Providers>
-  )
+  );
 }
 
-export default App
+export default App;

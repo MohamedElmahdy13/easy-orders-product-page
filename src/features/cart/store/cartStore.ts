@@ -85,8 +85,7 @@ export const useCartStore = create<CartState>()(
 );
 
 // Count and total are calculated from the items, not stored
-export const selectCartCount = (state: CartState) =>
-  state.items.reduce((sum, item) => sum + item.quantity, 0);
+export const selectCartCount = (state: CartState) => state.items.reduce((sum, item) => sum + item.quantity, 0);
 
 export const selectCartTotal = (state: CartState) =>
   state.items.reduce((sum, item) => sum + item.price * item.quantity, 0);

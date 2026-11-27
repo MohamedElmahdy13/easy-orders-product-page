@@ -32,20 +32,23 @@ npm run dev              # http://localhost:5173
 
 ### Environment
 
-| Variable | Description |
-| --- | --- |
+| Variable       | Description                                                                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `VITE_API_URL` | Base URL of the Easy Orders API, for example `https://api.easy-orders.net/api/v1`. There is no fallback, so the app needs it to load the product. |
 
 ### Scripts
 
-| Script | What it does |
-| --- | --- |
-| `npm run dev` | Starts the dev server |
-| `npm run build` | Type-checks and builds to `dist/` |
-| `npm run preview` | Serves the production build |
-| `npm run lint` | Runs ESLint |
-| `npm test` / `npm run test:run` | Runs the unit and component tests (watch / once) |
-| `npm run test:e2e` | Runs the Playwright tests (first time only: `npx playwright install chromium`) |
+| Script                          | What it does                                                                   |
+| ------------------------------- | ------------------------------------------------------------------------------ |
+| `npm run dev`                   | Starts the dev server                                                          |
+| `npm run build`                 | Type-checks and builds to `dist/`                                              |
+| `npm run preview`               | Serves the production build                                                    |
+| `npm run lint`                  | Runs ESLint                                                                    |
+| `npm run format`                | Formats every file with Prettier (Tailwind classes are sorted too)             |
+| `npm run typecheck`             | Checks the types with `tsc`                                                    |
+| `npm run cleanup`               | Before a commit: format, fix lint issues and check types in one go             |
+| `npm test` / `npm run test:run` | Runs the unit and component tests (watch / once)                               |
+| `npm run test:e2e`              | Runs the Playwright tests (first time only: `npx playwright install chromium`) |
 
 ## Project structure
 
@@ -72,12 +75,12 @@ Features export only through their `index.ts`, and `shared` never imports from a
 
 ## State management
 
-| Kind of state | Where it lives |
-| --- | --- |
-| Product data (server) | TanStack Query, cached for 5 minutes |
-| Cart | Zustand store with Immer, only `items` is persisted |
-| Selected color, size and quantity | `useVariantSelection` (local state) |
-| Variant, price, stock, cart count and total | Calculated from the above, never stored |
+| Kind of state                               | Where it lives                                      |
+| ------------------------------------------- | --------------------------------------------------- |
+| Product data (server)                       | TanStack Query, cached for 5 minutes                |
+| Cart                                        | Zustand store with Immer, only `items` is persisted |
+| Selected color, size and quantity           | `useVariantSelection` (local state)                 |
+| Variant, price, stock, cart count and total | Calculated from the above, never stored             |
 
 Details and the reasoning are in [docs/state-management.md](docs/state-management.md).
 

@@ -204,11 +204,16 @@ describe('isOptionAvailable', () => {
 
 describe('getSelectionAfterPick', () => {
   it('keeps the size when the new color has it in stock', () => {
-    expect(getSelectionAfterPick(product, { color: 'brown', size: '38' }, 'color', 'black')).toEqual({ color: 'black', size: '38' });
+    expect(getSelectionAfterPick(product, { color: 'brown', size: '38' }, 'color', 'black')).toEqual({
+      color: 'black',
+      size: '38',
+    });
   });
 
   it('clears the size when the new color does not have it, without picking another one', () => {
-    expect(getSelectionAfterPick(tracked, { color: 'brown', size: '38' }, 'color', 'black')).toEqual({ color: 'black' });
+    expect(getSelectionAfterPick(tracked, { color: 'brown', size: '38' }, 'color', 'black')).toEqual({
+      color: 'black',
+    });
   });
 
   it('only changes the size when the size is picked', () => {

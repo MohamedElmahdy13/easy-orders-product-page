@@ -23,7 +23,9 @@ describe('ColorOptions', () => {
   it('does not allow an unavailable color to be picked', async () => {
     const user = userEvent.setup();
     const onSelect = vi.fn();
-    render(<ColorOptions variation={colors} selected="brown" onSelect={onSelect} isAvailable={(name) => name !== 'black'} />);
+    render(
+      <ColorOptions variation={colors} selected="brown" onSelect={onSelect} isAvailable={(name) => name !== 'black'} />,
+    );
 
     expect(screen.getByRole('button', { name: 'Black' })).toBeDisabled();
     await user.click(screen.getByRole('button', { name: 'Black' }));

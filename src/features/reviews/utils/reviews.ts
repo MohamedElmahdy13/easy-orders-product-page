@@ -19,10 +19,7 @@ export type ReviewFilters = {
 };
 
 // A review is shown when it matches the tab, one of the chosen ratings and one of the chosen topics
-export function filterReviews(
-  reviews: Review[],
-  { tab, ratings, topics }: ReviewFilters
-): Review[] {
+export function filterReviews(reviews: Review[], { tab, ratings, topics }: ReviewFilters): Review[] {
   return reviews.filter((review) => {
     if (tab === 'media' && !review.hasMedia) return false;
     if (tab === 'description' && !review.text) return false;

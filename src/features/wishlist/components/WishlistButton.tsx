@@ -33,7 +33,7 @@ export function WishlistButton({ variant = 'icon', className, onOpen }: Wishlist
       className={cn(
         variantClass[variant],
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink',
-        className
+        className,
       )}
     >
       <span className="relative block">

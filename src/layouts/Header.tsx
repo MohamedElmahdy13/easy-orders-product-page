@@ -37,16 +37,12 @@ export function Header() {
         ref={headerRef}
         className={cn(
           'sticky top-0 z-30 bg-white py-7.75 transition-shadow duration-200',
-          isStuck && 'shadow-[0_4px_12px_rgba(0,0,0,0.06)]'
+          isStuck && 'shadow-[0_4px_12px_rgba(0,0,0,0.06)]',
         )}
       >
         <div className="container-page flex items-center justify-between">
           <a href="/">
-            <img
-              src={logo}
-              alt="John Lewis & Partners"
-              className="h-[26px] w-[140px] lg:h-8 lg:w-[170px]"
-            />
+            <img src={logo} alt="John Lewis & Partners" className="h-[26px] w-[140px] lg:h-8 lg:w-[170px]" />
           </a>
 
           <nav aria-label="Main" className="flex items-center gap-5 lg:gap-8">

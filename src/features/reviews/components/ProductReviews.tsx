@@ -53,12 +53,7 @@ export function ProductReviews() {
   }
 
   const filters = (
-    <ReviewFilters
-      ratings={ratings}
-      topics={topics}
-      onToggleRating={toggleRating}
-      onToggleTopic={toggleTopic}
-    />
+    <ReviewFilters ratings={ratings} topics={topics} onToggleRating={toggleRating} onToggleTopic={toggleTopic} />
   );
 
   return (
@@ -99,7 +94,7 @@ export function ProductReviews() {
                         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink',
                         tab === id
                           ? 'border-charcoal bg-surface-selected lg:px-5'
-                          : 'border-track hover:bg-surface lg:border-border lg:px-4'
+                          : 'border-track hover:bg-surface lg:border-border lg:px-4',
                       )}
                     >
                       {label}

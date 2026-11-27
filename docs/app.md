@@ -11,12 +11,12 @@ The only page. It renders the dashed `Divider`, the breadcrumb and `ProductDetai
 
 ## `layouts/`
 
-| Component | What it does |
-| --- | --- |
-| `MainLayout` | Announcement bar, header, `main`, footer, and the `CartDrawer` (rendered once for the whole app). |
-| `AnnouncementBar` | Black bar with the promo text. The timer text is static. |
-| `Header` | Logo, search, Categories dropdown, sign in, `WishlistButton`, `CartButton`. On mobile the icons collapse into a menu button that opens a drawer. |
-| `Footer` | Link columns, newsletter field, social links, language and currency dropdowns, and the copyright line under the shared `Divider`. |
+| Component         | What it does                                                                                                                                     |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `MainLayout`      | Announcement bar, header, `main`, footer, and the `CartDrawer` (rendered once for the whole app).                                                |
+| `AnnouncementBar` | Black bar with the promo text. The timer text is static.                                                                                         |
+| `Header`          | Logo, search, Categories dropdown, sign in, `WishlistButton`, `CartButton`. On mobile the icons collapse into a menu button that opens a drawer. |
+| `Footer`          | Link columns, newsletter field, social links, language and currency dropdowns, and the copyright line under the shared `Divider`.                |
 
 Demo only: search, sign in, the newsletter form, and the language and currency menus (they only change their own label). The Categories list is fixed because the API only returns the categories of one product.
 

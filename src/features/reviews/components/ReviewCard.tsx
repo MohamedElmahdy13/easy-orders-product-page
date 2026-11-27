@@ -7,7 +7,12 @@ import { StarRating } from './StarRating';
 // "July 2, 2020 03:29 PM", in UTC so everybody sees the same date
 function formatDate(date: string) {
   const options = { timeZone: 'UTC' } as const;
-  const day = new Date(date).toLocaleDateString('en-US', { ...options, month: 'long', day: 'numeric', year: 'numeric' });
+  const day = new Date(date).toLocaleDateString('en-US', {
+    ...options,
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
   const time = new Date(date).toLocaleTimeString('en-US', { ...options, hour: '2-digit', minute: '2-digit' });
   return `${day} ${time}`;
 }
@@ -16,7 +21,7 @@ function formatDate(date: string) {
 const voteButtonClass = cn(
   'flex h-8 items-center justify-center rounded-md border border-track text-xs leading-[1.6] text-ink transition-colors hover:bg-surface',
   'lg:h-[50px] lg:rounded-lg lg:p-3 lg:text-base',
-  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink'
+  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink',
 );
 
 export function ReviewCard({ review }: { review: Review }) {

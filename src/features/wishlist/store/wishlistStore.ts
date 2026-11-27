@@ -74,5 +74,4 @@ export const useWishlistStore = create<WishlistState>()(
 // The count is calculated from the items, not stored
 export const selectWishlistCount = (state: WishlistState) => state.items.length;
 
-export const selectIsWishlisted = (id: string) => (state: WishlistState) =>
-  state.items.some((item) => item.id === id);
+export const selectIsWishlisted = (id: string) => (state: WishlistState) => state.items.some((item) => item.id === id);

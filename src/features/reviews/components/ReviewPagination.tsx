@@ -7,11 +7,10 @@ type ReviewPaginationProps = {
   onChange: (page: number) => void;
 };
 
-const focusClass =
-  'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink';
+const focusClass = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink';
 const arrowClass = cn(
   'flex size-9 items-center justify-center rounded-md text-ink hover:bg-surface lg:size-11 lg:rounded-lg',
-  focusClass
+  focusClass,
 );
 
 // Like the design: page buttons, and an arrow only where there is a page to go to
@@ -23,12 +22,7 @@ export function ReviewPagination({ page, pageCount, onChange }: ReviewPagination
     <div className="flex justify-center">
       <nav aria-label="Reviews pages" className="flex gap-1.5 pl-6 lg:gap-2 lg:pl-[300px]">
         {page > 1 && (
-          <button
-            type="button"
-            aria-label="Previous page"
-            onClick={() => onChange(page - 1)}
-            className={arrowClass}
-          >
+          <button type="button" aria-label="Previous page" onClick={() => onChange(page - 1)} className={arrowClass}>
             <ChevronLeftIcon className="size-6" />
           </button>
         )}
@@ -44,7 +38,7 @@ export function ReviewPagination({ page, pageCount, onChange }: ReviewPagination
               'flex size-9 items-center justify-center rounded-md border bg-white text-xs leading-[1.6] font-medium hover:bg-surface',
               'lg:size-11 lg:rounded-lg lg:text-sm',
               focusClass,
-              number === page ? 'border-charcoal text-ink' : 'border-track text-page-number'
+              number === page ? 'border-charcoal text-ink' : 'border-track text-page-number',
             )}
           >
             {number}
@@ -52,12 +46,7 @@ export function ReviewPagination({ page, pageCount, onChange }: ReviewPagination
         ))}
 
         {page < pageCount && (
-          <button
-            type="button"
-            aria-label="Next page"
-            onClick={() => onChange(page + 1)}
-            className={arrowClass}
-          >
+          <button type="button" aria-label="Next page" onClick={() => onChange(page + 1)} className={arrowClass}>
             <ChevronRightIcon className="size-6" />
           </button>
         )}

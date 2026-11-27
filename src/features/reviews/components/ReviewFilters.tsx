@@ -13,8 +13,7 @@ type ReviewFiltersProps = {
 };
 
 // Mobile uses the same sizes as the rest of the mobile reviews (12px text, 16px titles)
-const optionClass =
-  'flex items-center gap-2 text-xs leading-[1.6] font-semibold text-cool-gray lg:text-base';
+const optionClass = 'flex items-center gap-2 text-xs leading-[1.6] font-semibold text-cool-gray lg:text-base';
 
 // A group that opens and closes, with <details> so it needs no state
 function FilterGroup({ title, children }: { title: string; children: ReactNode }) {
@@ -29,12 +28,7 @@ function FilterGroup({ title, children }: { title: string; children: ReactNode }
   );
 }
 
-export function ReviewFilters({
-  ratings,
-  topics,
-  onToggleRating,
-  onToggleTopic,
-}: ReviewFiltersProps) {
+export function ReviewFilters({ ratings, topics, onToggleRating, onToggleTopic }: ReviewFiltersProps) {
   return (
     <DashedBox className="p-4 lg:p-6">
       <aside aria-label="Reviews filter" className="flex flex-col gap-3 lg:gap-4">
@@ -47,10 +41,7 @@ export function ReviewFilters({
           <FilterGroup title="Rating">
             {[5, 4, 3, 2, 1].map((rating) => (
               <label key={rating} className={optionClass}>
-                <Checkbox
-                  checked={ratings.includes(rating)}
-                  onChange={() => onToggleRating(rating)}
-                />
+                <Checkbox checked={ratings.includes(rating)} onChange={() => onToggleRating(rating)} />
                 <span className="sr-only">{rating} stars</span>
                 <span aria-hidden="true" className="flex items-center gap-1">
                   <StarIcon className="size-4 text-star lg:size-4.5" />

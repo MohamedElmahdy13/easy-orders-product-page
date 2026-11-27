@@ -1,12 +1,7 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  WishlistButton,
-  WishlistDrawer,
-  WishlistToggle,
-  useWishlistStore,
-} from '@/features/wishlist';
+import { WishlistButton, WishlistDrawer, WishlistToggle, useWishlistStore } from '@/features/wishlist';
 import type { WishlistItem } from '@/features/wishlist';
 
 const shoe: WishlistItem = {
@@ -56,7 +51,7 @@ describe('WishlistButton and WishlistDrawer', () => {
       <>
         <WishlistButton />
         <WishlistDrawer onMoveToCart={vi.fn()} />
-      </>
+      </>,
     );
 
     await user.click(screen.getByRole('button', { name: 'Wishlist, 1 items' }));

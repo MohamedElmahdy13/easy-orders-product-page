@@ -1,9 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  selectIsWishlisted,
-  selectWishlistCount,
-  useWishlistStore,
-} from '@/features/wishlist/store/wishlistStore';
+import { selectIsWishlisted, selectWishlistCount, useWishlistStore } from '@/features/wishlist/store/wishlistStore';
 import type { WishlistItem } from '@/features/wishlist';
 
 const shoe: WishlistItem = {

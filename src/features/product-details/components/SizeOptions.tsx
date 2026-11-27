@@ -41,8 +41,10 @@ export function SizeOptions({ variation, selected, onSelect, isAvailable }: Size
                 aria-pressed={isSelected}
                 className={cn(
                   'h-[39px] w-[73.5px] rounded-md border text-label leading-[1.2] font-semibold lg:h-10 lg:w-[75px] lg:rounded-lg',
-                  isSelected ? 'border-charcoal bg-surface-selected text-ink' : 'border-border text-link hover:border-charcoal',
-                  !isAvailable(option.name) && 'text-subtle line-through opacity-50 hover:border-border'
+                  isSelected
+                    ? 'border-charcoal bg-surface-selected text-ink'
+                    : 'border-border text-link hover:border-charcoal',
+                  !isAvailable(option.name) && 'text-subtle line-through opacity-50 hover:border-border',
                 )}
               >
                 {option.name}

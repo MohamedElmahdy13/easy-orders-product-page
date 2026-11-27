@@ -22,7 +22,7 @@ export function ProductDescription({ html }: { html: string }) {
         className={cn(
           'text-sm leading-[1.3] text-muted lg:text-body',
           '[&_a]:underline [&_li]:mt-1 [&_p]:mt-2 [&_strong]:font-semibold [&_ul]:list-disc [&_ul]:pl-5',
-          isLong && !isExpanded && 'line-clamp-5 lg:line-clamp-4'
+          isLong && !isExpanded && 'line-clamp-5 lg:line-clamp-4',
         )}
         dangerouslySetInnerHTML={{ __html: description }}
       />

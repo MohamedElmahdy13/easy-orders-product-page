@@ -17,19 +17,8 @@ const RING_LENGTH = 2 * Math.PI * RING_RADIUS;
 function RatingRing({ average }: { average: number }) {
   return (
     <div className="relative size-16 shrink-0 lg:size-21">
-      <svg
-        aria-hidden="true"
-        viewBox={`0 0 ${RING_SIZE} ${RING_SIZE}`}
-        className="absolute inset-0 size-full"
-      >
-        <circle
-          cx="42"
-          cy="42"
-          r={RING_RADIUS}
-          fill="none"
-          stroke="var(--color-track)"
-          strokeWidth={RING_STROKE}
-        />
+      <svg aria-hidden="true" viewBox={`0 0 ${RING_SIZE} ${RING_SIZE}`} className="absolute inset-0 size-full">
+        <circle cx="42" cy="42" r={RING_RADIUS} fill="none" stroke="var(--color-track)" strokeWidth={RING_STROKE} />
         <circle
           cx="42"
           cy="42"

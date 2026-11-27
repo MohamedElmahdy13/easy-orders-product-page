@@ -8,15 +8,15 @@ A persistent cart with a badge in the header and a drawer.
 
 Zustand with Immer and `persist`.
 
-| Action / selector | What it does |
-| --- | --- |
-| `addItem(item)` | Adds a line, or adds to the quantity when the same variant is already there. Refreshes `maxQuantity` with the current stock. |
-| `setQuantity(id, quantity)` | Sets the quantity, kept between 1 and `maxQuantity`. |
-| `removeItem(id)` | Removes the line. |
-| `clearCart()` | Removes every line. |
-| `openCart()` / `closeCart()` | Shows or hides the drawer. |
-| `selectCartCount` | Total number of units. |
-| `selectCartTotal` | Sum of price times quantity. |
+| Action / selector            | What it does                                                                                                                 |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| `addItem(item)`              | Adds a line, or adds to the quantity when the same variant is already there. Refreshes `maxQuantity` with the current stock. |
+| `setQuantity(id, quantity)`  | Sets the quantity, kept between 1 and `maxQuantity`.                                                                         |
+| `removeItem(id)`             | Removes the line.                                                                                                            |
+| `clearCart()`                | Removes every line.                                                                                                          |
+| `openCart()` / `closeCart()` | Shows or hides the drawer.                                                                                                   |
+| `selectCartCount`            | Total number of units.                                                                                                       |
+| `selectCartTotal`            | Sum of price times quantity.                                                                                                 |
 
 The count and the total are calculated from the items, not stored. Prices in the cart are the unit price when the item was added.
 
@@ -30,12 +30,12 @@ The saved `maxQuantity` is a snapshot. It is refreshed with the current stock wh
 
 ## Components
 
-| Component | What it does |
-| --- | --- |
-| `CartButton` | Header icon with a badge showing the count (hidden at 0). Its label is "Cart, N items". Opens the drawer. |
+| Component    | What it does                                                                                                                       |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `CartButton` | Header icon with a badge showing the count (hidden at 0). Its label is "Cart, N items". Opens the drawer.                          |
 | `CartDrawer` | The drawer: list of items, and in the footer the total and a "Clear cart" link, or the empty state. Rendered once in `MainLayout`. |
-| `CartItem` | Image, name, color and size, quantity selector (limited by `maxQuantity`), line price and a remove button. |
-| `EmptyCart` | "Your cart is empty" message. |
+| `CartItem`   | Image, name, color and size, quantity selector (limited by `maxQuantity`), line price and a remove button.                         |
+| `EmptyCart`  | "Your cart is empty" message.                                                                                                      |
 
 ## Tests
 

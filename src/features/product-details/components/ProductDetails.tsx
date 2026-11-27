@@ -93,11 +93,7 @@ function ProductContent({ product }: { product: Product }) {
 
   return (
     <div className={pageGrid}>
-      <ProductGallery
-        wishlistItem={itemToSave}
-        images={getGalleryImages(product)}
-        productName={product.name}
-      />
+      <ProductGallery wishlistItem={itemToSave} images={getGalleryImages(product)} productName={product.name} />
       <ProductInfo
         product={product}
         variant={variant}

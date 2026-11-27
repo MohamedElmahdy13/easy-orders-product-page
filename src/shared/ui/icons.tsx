@@ -131,15 +131,7 @@ export function TrashIcon(props: IconProps) {
 // Filled star used for ratings (color comes from text color, e.g. text-star)
 export function StarIcon(props: IconProps) {
   return (
-    <svg
-      width="19"
-      height="18"
-      viewBox="0 0 19 18"
-      fill="currentColor"
-      aria-hidden="true"
-      focusable="false"
-      {...props}
-    >
+    <svg width="19" height="18" viewBox="0 0 19 18" fill="currentColor" aria-hidden="true" focusable="false" {...props}>
       <path d="M8.386 0.691C8.685 -0.23 9.989 -0.23 10.288 0.691L11.807 5.365C11.94 5.777 12.324 6.056 12.758 6.056H17.672C18.641 6.056 19.043 7.295 18.26 7.865L14.284 10.753C13.934 11.008 13.787 11.459 13.921 11.871L15.439 16.545C15.739 17.466 14.684 18.233 13.9 17.663L9.925 14.775C9.574 14.52 9.1 14.52 8.749 14.775L4.773 17.663C3.99 18.233 2.935 17.466 3.235 16.545L4.753 11.871C4.887 11.459 4.74 11.008 4.39 10.753L0.414 7.865C-0.37 7.295 0.033 6.056 1.002 6.056H5.916C6.349 6.056 6.733 5.777 6.867 5.365L8.386 0.691Z" />
     </svg>
   );
