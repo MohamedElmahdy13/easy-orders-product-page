@@ -28,6 +28,8 @@ export const useCartStore = create<CartState>()(
         set((state) => {
           const existing = state.items.find((i) => i.id === item.id);
           if (existing) {
+            // Use the stock the product page has now, not the one saved earlier
+            existing.maxQuantity = item.maxQuantity;
             existing.quantity = clampQuantity(existing.quantity + item.quantity, existing.maxQuantity);
           } else {
             state.items.push({ ...item, quantity: clampQuantity(item.quantity, item.maxQuantity) });

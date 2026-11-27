@@ -10,7 +10,7 @@ import { getMaxQuantity, getPrices } from '../utils/variants';
 import { ProductGallery } from './ProductGallery';
 import { ProductInfo } from './ProductInfo';
 
-const pageGrid = 'grid gap-8 lg:grid-cols-2 xl:grid-cols-[545px_520px] xl:gap-[135px]';
+const pageGrid = 'grid grid-cols-1 gap-8 lg:grid-cols-2 xl:grid-cols-[545px_520px] xl:gap-[135px]';
 
 // Owns what the shopper picked, so the gallery and the info stay in sync
 export function ProductDetails({ slug }: { slug: string }) {
@@ -55,7 +55,11 @@ function ProductContent({ product }: { product: Product }) {
   const itemId = `${product.id}:${variant?.id ?? 'default'}`;
   const maxQuantity = getMaxQuantity(product, variant);
   const quantityInCart = useCartStore((state) => state.items.find((item) => item.id === itemId)?.quantity ?? 0);
-  const isMaxInCart = quantityInCart >= maxQuantity;
+  const isMaxInCart = quantityInCart > 0 && quantityInCart >= maxQuantity;
+
+  // What the shopper can still add: the limit minus what is already in the cart
+  const remaining = Math.max(maxQuantity - quantityInCart, 0);
+  const quantityToAdd = Math.max(1, Math.min(quantity, remaining));
 
   let message = '';
   if (justAdded) message = 'Added to cart ✓';
@@ -77,7 +81,7 @@ function ProductContent({ product }: { product: Product }) {
       price: getPrices(product, variant).price,
       color: selection.color,
       size: selection.size,
-      quantity,
+      quantity: quantityToAdd,
       maxQuantity,
     });
   }
@@ -100,7 +104,8 @@ function ProductContent({ product }: { product: Product }) {
         variant={variant}
         selection={selection}
         onSelectOption={selectOption}
-        quantity={quantity}
+        quantity={quantityToAdd}
+        maxQuantity={remaining}
         onQuantityChange={setQuantity}
         onAddToCart={handleAddToCart}
         onCheckout={handleCheckout}

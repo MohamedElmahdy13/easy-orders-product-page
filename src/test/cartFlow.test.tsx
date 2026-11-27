@@ -138,4 +138,23 @@ describe('cart flow', () => {
     await user.click(screen.getByRole('button', { name: '40' }));
     expect(screen.getByRole('button', { name: 'Add To Cart' })).toBeEnabled();
   });
+
+  it('limits the quantity to what is left after the cart', async () => {
+    const user = userEvent.setup();
+    renderPage();
+
+    // Put 6 in the cart, the max is 10
+    const increase = await screen.findByRole('button', { name: 'Increase quantity' });
+    for (let i = 0; i < 5; i++) await user.click(increase);
+    await user.click(screen.getByRole('button', { name: 'Add To Cart' }));
+    expect(screen.getByRole('button', { name: /^Cart, 6 item/ })).toBeInTheDocument();
+
+    // Only 4 are left, so the selector shows 4 and cannot go higher
+    expect(screen.getByRole('group', { name: 'Quantity' })).toHaveTextContent('4');
+    expect(screen.getByRole('button', { name: 'Increase quantity' })).toBeDisabled();
+
+    await user.click(screen.getByRole('button', { name: 'Add To Cart' }));
+    expect(screen.getByRole('button', { name: /^Cart, 10 item/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Add To Cart' })).toBeDisabled();
+  });
 });

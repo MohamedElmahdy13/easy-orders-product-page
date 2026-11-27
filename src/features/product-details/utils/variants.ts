@@ -6,10 +6,21 @@ export type Selection = Record<string, string>;
 // When the product does not track stock we still need a limit for the quantity selector
 export const MAX_QUANTITY_WITHOUT_STOCK = 10;
 
-// Start with the first option of every variation (first color, first size)
-export function getDefaultSelection(product: Product): Selection {
-  const selection: Selection = {};
+// Can this variant be bought? Without stock tracking every variant can.
+function isPurchasable(product: Product, variant: Variant): boolean {
+  return !product.track_stock || variant.quantity > 0;
+}
 
+function selectionFromVariant(variant: Variant): Selection {
+  return Object.fromEntries(variant.variation_props.map((prop) => [prop.variation, prop.variation_prop]));
+}
+
+// Start with the first variant that can be bought, or the first option of every variation
+export function getDefaultSelection(product: Product): Selection {
+  const firstPurchasable = product.variants.find((variant) => isPurchasable(product, variant));
+  if (firstPurchasable) return selectionFromVariant(firstPurchasable);
+
+  const selection: Selection = {};
   for (const variation of product.variations) {
     selection[variation.name] = variation.props[0].name;
   }
@@ -37,6 +48,8 @@ export function getPrices(product: Product, variant?: Variant) {
 }
 
 export function getMaxQuantity(product: Product, variant?: Variant): number {
+  // The selected options do not match any variant, so there is nothing to buy
+  if (product.variants.length > 0 && !variant) return 0;
   if (!product.track_stock) return MAX_QUANTITY_WITHOUT_STOCK;
 
   return variant ? variant.quantity : product.quantity;
@@ -46,15 +59,29 @@ export function isInStock(product: Product, variant?: Variant): boolean {
   return getMaxQuantity(product, variant) > 0;
 }
 
-// Can this option still be bought together with the other selected options?
-// Without stock tracking everything is available.
-export function isOptionAvailable(product: Product, selection: Selection, variationName: string, option: string): boolean {
-  if (!product.track_stock) return true;
+// An option is available when at least one variant with that option can be bought
+export function isOptionAvailable(product: Product, variationName: string, option: string): boolean {
+  return product.variants.some(
+    (variant) =>
+      isPurchasable(product, variant) &&
+      variant.variation_props.some((prop) => prop.variation === variationName && prop.variation_prop === option),
+  );
+}
 
+// The selection after the shopper picks an option. If that option does not exist with the other
+// selected options (or is sold out), switch the others to the first variant that has it.
+export function selectOption(product: Product, selection: Selection, variationName: string, option: string): Selection {
   const wanted = { ...selection, [variationName]: option };
   const variant = findVariant(product, wanted);
+  if (variant && isPurchasable(product, variant)) return wanted;
 
-  return variant ? variant.quantity > 0 : false;
+  const alternative = product.variants.find(
+    (candidate) =>
+      isPurchasable(product, candidate) &&
+      candidate.variation_props.some((prop) => prop.variation === variationName && prop.variation_prop === option),
+  );
+
+  return alternative ? selectionFromVariant(alternative) : wanted;
 }
 
 // The API can send the same category twice (with different ids), so list each name once

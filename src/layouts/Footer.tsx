@@ -40,13 +40,13 @@ export function Footer() {
 
   return (
     <footer className="bg-surface">
-      <div className="container-page pt-[72px] pb-8">
+      <div className="container-page pt-[72px] pb-[22px] lg:pb-8">
         <div className="flex flex-col gap-12 lg:flex-row lg:justify-between">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-10">
               <img src={logo} alt="John Lewis & Partners" className="h-8 w-[170px]" />
 
-              <form onSubmit={handleSubscribe} className="flex w-[298px] items-center gap-8 border-b-[0.5px] border-ink">
+              <form onSubmit={handleSubscribe} className="flex w-full max-w-[298px] items-center gap-8 border-b-[0.5px] border-ink focus-within:outline-2 focus-within:outline-offset-4 focus-within:outline-ink">
                 <input
                   type="email"
                   aria-label="Email address"
@@ -78,9 +78,9 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="grid grid-cols-[134px_134px] gap-x-[58px] gap-y-[25px] lg:flex lg:gap-[120px]">
+          <div className="grid grid-cols-[repeat(2,minmax(0,134px))] gap-x-6 gap-y-[25px] min-[375px]:gap-x-[58px] lg:flex lg:gap-[120px]">
             {footerColumns.map((column) => (
-              <div key={column.title} className="flex w-[134px] flex-col gap-4">
+              <div key={column.title} className="flex w-full flex-col gap-4 lg:w-[134px]">
                 <h2 className="text-lg leading-6 font-medium lg:text-sm lg:font-semibold">{column.title}</h2>
                 <ul className="flex flex-col gap-3">
                   {column.links.map((link) => (

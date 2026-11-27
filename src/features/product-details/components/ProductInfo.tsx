@@ -2,7 +2,7 @@ import { Divider } from '@/shared/ui/Divider';
 import { QuantitySelector } from '@/shared/ui/QuantitySelector';
 import { formatPrice } from '@/shared/utils/formatPrice';
 import type { Product, Variant } from '../product.types';
-import { getCategoryNames, getMaxQuantity, getPrices, isInStock, isOptionAvailable } from '../utils/variants';
+import { getCategoryNames, getPrices, isInStock, isOptionAvailable } from '../utils/variants';
 import type { Selection } from '../utils/variants';
 import { AddToCartActions } from './AddToCartActions';
 import { ColorOptions } from './ColorOptions';
@@ -16,6 +16,7 @@ type ProductInfoProps = {
   selection: Selection;
   onSelectOption: (variationName: string, option: string) => void;
   quantity: number;
+  maxQuantity: number;
   onQuantityChange: (quantity: number) => void;
   onAddToCart: () => void;
   onCheckout: () => void;
@@ -29,6 +30,7 @@ export function ProductInfo({
   selection,
   onSelectOption,
   quantity,
+  maxQuantity,
   onQuantityChange,
   onAddToCart,
   onCheckout,
@@ -72,7 +74,7 @@ export function ProductInfo({
               variation={colors}
               selected={selection.color}
               onSelect={(option) => onSelectOption('color', option)}
-              isAvailable={(option) => isOptionAvailable(product, selection, 'color', option)}
+              isAvailable={(option) => isOptionAvailable(product, 'color', option)}
             />
           )}
           {sizes && (
@@ -80,7 +82,7 @@ export function ProductInfo({
               variation={sizes}
               selected={selection.size}
               onSelect={(option) => onSelectOption('size', option)}
-              isAvailable={(option) => isOptionAvailable(product, selection, 'size', option)}
+              isAvailable={(option) => isOptionAvailable(product, 'size', option)}
             />
           )}
 
@@ -89,7 +91,7 @@ export function ProductInfo({
             <QuantitySelector
               value={quantity}
               onChange={onQuantityChange}
-              max={getMaxQuantity(product, variant)}
+              max={maxQuantity}
               className="self-start"
             />
           </div>

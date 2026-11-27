@@ -49,6 +49,15 @@ describe('cartStore', () => {
     expect(useCartStore.getState().items[0].quantity).toBe(5);
   });
 
+  it('uses the newest max quantity when the same variant is added again', () => {
+    addItem({ ...shoe, quantity: 2, maxQuantity: 10 });
+    addItem({ ...shoe, quantity: 2, maxQuantity: 3 }); // stock dropped to 3
+
+    const item = useCartStore.getState().items[0];
+    expect(item.maxQuantity).toBe(3);
+    expect(item.quantity).toBe(3);
+  });
+
   it('sets the quantity between 1 and the max', () => {
     addItem(shoe);
 
