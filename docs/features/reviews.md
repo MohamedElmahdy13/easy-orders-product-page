@@ -6,7 +6,7 @@ A reviews section below the product: rating summary, filters, the list of review
 
 ## Example data
 
-The API (`?join=reviews`) does not return any reviews, so the section shows 14 example reviews from `utils/exampleReviews.ts`, with a small "Example reviews for this demo." note next to the title. The `Review` type is in `reviews.types.ts`. If the API gets reviews later, only the source of the list needs to change.
+The API (`?join=reviews`) does not return any reviews, so the section shows 14 example reviews from `utils/exampleReviews.ts`. The `Review` type is in `reviews.types.ts`. If the API gets reviews later, only the source of the list needs to change.
 
 ## Design
 
