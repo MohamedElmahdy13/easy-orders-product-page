@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Product } from '../product.types';
-import { findVariant, getDefaultSelection, getMaxQuantity, selectOption as getSelectionAfterPick } from '../utils/variants';
+import { findVariant, getDefaultSelection, getMaxQuantity, getSelectionAfterPick } from '../utils/variants';
 import type { Selection } from '../utils/variants';
 
 // Keeps what the shopper picked (color, size, quantity).

@@ -11,8 +11,7 @@ export function Divider({ className }: DividerProps) {
       role="separator"
       className={cn('h-[0.5px] w-full', className)}
       style={{
-        backgroundImage:
-          'repeating-linear-gradient(to right, var(--color-divider) 0 6px, transparent 6px 12px)',
+        backgroundImage: 'repeating-linear-gradient(to right, var(--color-divider) 0 6px, transparent 6px 12px)',
       }}
     />
   );

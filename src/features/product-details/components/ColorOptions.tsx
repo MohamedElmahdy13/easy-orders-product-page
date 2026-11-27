@@ -31,10 +31,15 @@ export function ColorOptions({ variation, selected, onSelect, isAvailable }: Col
                 className={cn(
                   'block h-[39px] w-[73.7px] overflow-hidden rounded-md lg:h-10 lg:w-[75px] lg:rounded-lg',
                   isSelected && 'border border-ink bg-white p-[5px]',
-                  !isAvailable(option.name) && 'opacity-30'
+                  !isAvailable(option.name) && 'opacity-30',
                 )}
               >
-                <img src={option.value} alt="" loading="lazy" className={cn('size-full object-cover', isSelected && 'rounded-sm lg:rounded-md')} />
+                <img
+                  src={option.value}
+                  alt=""
+                  loading="lazy"
+                  className={cn('size-full object-cover', isSelected && 'rounded-sm lg:rounded-md')}
+                />
               </button>
             </li>
           );

@@ -18,7 +18,12 @@ export function makeProduct(overrides: Partial<Product> = {}): Product {
     track_stock: false,
     categories: [],
     variations: [
-      { id: 'v-color', name: 'color', type: 'image', props: colors.map((name) => ({ id: name, name, value: `${name}.jpg` })) },
+      {
+        id: 'v-color',
+        name: 'color',
+        type: 'image',
+        props: colors.map((name) => ({ id: name, name, value: `${name}.jpg` })),
+      },
       { id: 'v-size', name: 'size', type: 'button', props: sizes.map((name) => ({ id: name, name })) },
     ],
     variants: colors.flatMap((color) =>

@@ -16,11 +16,11 @@ export function Button({ variant = 'primary', type = 'button', className, ...pro
     <button
       type={type}
       className={cn(
-        'inline-flex h-14 shrink-0 whitespace-nowrap items-center justify-center rounded-md text-lg font-semibold transition-colors lg:h-14.5 lg:rounded-lg lg:text-label',
+        'inline-flex h-14 shrink-0 items-center justify-center rounded-md text-lg font-semibold whitespace-nowrap transition-colors lg:h-14.5 lg:rounded-lg lg:text-label',
         'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink',
         'disabled:cursor-not-allowed disabled:opacity-40',
         variants[variant],
-        className
+        className,
       )}
       {...props}
     />

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { createJSONStorage, persist } from 'zustand/middleware';
+import { persist } from 'zustand/middleware';
+import { safeStorage } from '@/shared/utils/safeStorage';
 import type { CartItem } from '../cart.types';
 
 type CartState = {
@@ -18,31 +19,6 @@ type CartState = {
 function clampQuantity(quantity: number, max: number) {
   return Math.max(1, Math.min(quantity, max));
 }
-
-// localStorage can be blocked or full. The cart must keep working, it just will not be saved.
-const safeStorage = createJSONStorage(() => ({
-  getItem: (name) => {
-    try {
-      return localStorage.getItem(name);
-    } catch {
-      return null;
-    }
-  },
-  setItem: (name, value) => {
-    try {
-      localStorage.setItem(name, value);
-    } catch {
-      // not saved, nothing else to do
-    }
-  },
-  removeItem: (name) => {
-    try {
-      localStorage.removeItem(name);
-    } catch {
-      // nothing to remove
-    }
-  },
-}));
 
 // What was saved in the browser could be old or edited, so only keep lines that look like cart items
 function isCartItem(value: unknown): value is CartItem {
@@ -109,8 +85,7 @@ export const useCartStore = create<CartState>()(
 );
 
 // Count and total are calculated from the items, not stored
-export const selectCartCount = (state: CartState) =>
-  state.items.reduce((sum, item) => sum + item.quantity, 0);
+export const selectCartCount = (state: CartState) => state.items.reduce((sum, item) => sum + item.quantity, 0);
 
 export const selectCartTotal = (state: CartState) =>
   state.items.reduce((sum, item) => sum + item.price * item.quantity, 0);

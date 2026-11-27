@@ -3,13 +3,12 @@ import type { Product, Variant } from '@/features/product-details/product.types'
 import {
   findVariant,
   getDefaultSelection,
-  getCategoryNames,
   getMaxQuantity,
   getPrices,
   isInStock,
   isOptionAvailable,
   MAX_QUANTITY_WITHOUT_STOCK,
-  selectOption,
+  getSelectionAfterPick,
 } from '@/features/product-details/utils/variants';
 
 function makeVariant(color: string, size: string, overrides: Partial<Variant> = {}): Variant {
@@ -203,17 +202,22 @@ describe('isOptionAvailable', () => {
   });
 });
 
-describe('selectOption', () => {
+describe('getSelectionAfterPick', () => {
   it('keeps the size when the new color has it in stock', () => {
-    expect(selectOption(product, { color: 'brown', size: '38' }, 'color', 'black')).toEqual({ color: 'black', size: '38' });
+    expect(getSelectionAfterPick(product, { color: 'brown', size: '38' }, 'color', 'black')).toEqual({
+      color: 'black',
+      size: '38',
+    });
   });
 
   it('clears the size when the new color does not have it, without picking another one', () => {
-    expect(selectOption(tracked, { color: 'brown', size: '38' }, 'color', 'black')).toEqual({ color: 'black' });
+    expect(getSelectionAfterPick(tracked, { color: 'brown', size: '38' }, 'color', 'black')).toEqual({
+      color: 'black',
+    });
   });
 
   it('only changes the size when the size is picked', () => {
-    expect(selectOption(tracked, { color: 'black' }, 'size', '40')).toEqual({ color: 'black', size: '40' });
+    expect(getSelectionAfterPick(tracked, { color: 'black' }, 'size', '40')).toEqual({ color: 'black', size: '40' });
   });
 
   it('can reach every variant that can be bought: pick its color, then its size', () => {
@@ -223,25 +227,11 @@ describe('selectOption', () => {
 
       let selection = getDefaultSelection(tracked);
       expect(isOptionAvailable(tracked, selection, 'color', color)).toBe(true);
-      selection = selectOption(tracked, selection, 'color', color);
+      selection = getSelectionAfterPick(tracked, selection, 'color', color);
       expect(isOptionAvailable(tracked, selection, 'size', size)).toBe(true);
-      selection = selectOption(tracked, selection, 'size', size);
+      selection = getSelectionAfterPick(tracked, selection, 'size', size);
 
       expect(findVariant(tracked, selection)?.id).toBe(variant.id);
     }
-  });
-});
-
-describe('getCategoryNames', () => {
-  it('lists each category name once', () => {
-    const withCategories = {
-      ...product,
-      categories: [
-        { id: '1', name: 'Mules' },
-        { id: '2', name: 'Mules' },
-        { id: '3', name: 'Sneakers' },
-      ],
-    };
-    expect(getCategoryNames(withCategories)).toEqual(['Mules', 'Sneakers']);
   });
 });

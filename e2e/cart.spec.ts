@@ -23,7 +23,12 @@ const product = {
   track_stock: true,
   categories: [],
   variations: [
-    { id: 'v-color', name: 'color', type: 'image', props: colors.map((c) => ({ id: c.name, name: c.name, value: image(c.color) })) },
+    {
+      id: 'v-color',
+      name: 'color',
+      type: 'image',
+      props: colors.map((c) => ({ id: c.name, name: c.name, value: image(c.color) })),
+    },
     { id: 'v-size', name: 'size', type: 'button', props: sizes.map((name) => ({ id: name, name })) },
   ],
   variants: colors.flatMap((c) =>
@@ -94,7 +99,9 @@ test('shows an error and lets the shopper try again when the product fails to lo
   await expect(page.getByRole('heading', { level: 1, name: 'Achilles Pro' })).toBeVisible();
 });
 
-test('shopper saves a variant to the wishlist, moves it to the cart and the wishlist survives a reload', async ({ page }) => {
+test('shopper saves a variant to the wishlist, moves it to the cart and the wishlist survives a reload', async ({
+  page,
+}) => {
   await mockProduct(page);
   await page.goto('/');
 

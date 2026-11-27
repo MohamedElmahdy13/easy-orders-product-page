@@ -17,7 +17,7 @@ Shows the product images and lets the shopper browse and zoom them.
 
 ## Props
 
-`ProductGallery({ images, productName })`: `images` is a list of urls. `productName` is used for the `alt` text and the share title.
+`ProductGallery({ wishlistItem, images, productName })`: `wishlistItem` is the selected color and size to save with the heart, `images` is a list of urls, and `productName` is used for the `alt` text and the share title.
 
 ## Helpers (`utils/gallery.ts`)
 

@@ -73,7 +73,12 @@ function hasOptions(variant: Variant, wanted: Selection): boolean {
 
 // A color is available when one of its variants can be bought.
 // A size is available when it can be bought together with the selected color.
-export function isOptionAvailable(product: Product, selection: Selection, variationName: string, option: string): boolean {
+export function isOptionAvailable(
+  product: Product,
+  selection: Selection,
+  variationName: string,
+  option: string,
+): boolean {
   const mainName = getMainVariationName(product);
   const mainOption = selection[mainName];
 
@@ -87,7 +92,12 @@ export function isOptionAvailable(product: Product, selection: Selection, variat
 
 // The selection after the shopper picks an option. When the color changes, a chosen size that does
 // not exist for the new color is cleared, so the shopper picks another one.
-export function selectOption(product: Product, selection: Selection, variationName: string, option: string): Selection {
+export function getSelectionAfterPick(
+  product: Product,
+  selection: Selection,
+  variationName: string,
+  option: string,
+): Selection {
   const next = { ...selection, [variationName]: option };
   if (variationName !== getMainVariationName(product)) return next;
 
@@ -99,9 +109,4 @@ export function selectOption(product: Product, selection: Selection, variationNa
   }
 
   return next;
-}
-
-// The API can send the same category twice (with different ids), so list each name once
-export function getCategoryNames(product: Product): string[] {
-  return [...new Set(product.categories.map((category) => category.name))];
 }

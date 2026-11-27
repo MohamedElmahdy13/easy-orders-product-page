@@ -86,7 +86,7 @@ export function ProductGallery({ wishlistItem, images, productName }: ProductGal
           className={cn(
             'aspect-458/610 min-w-0 flex-1 overflow-hidden rounded-lg bg-surface',
             // touch-none: while zoomed, dragging moves the image instead of scrolling the page
-            isZoomed ? 'cursor-zoom-out touch-none' : 'cursor-zoom-in'
+            isZoomed ? 'cursor-zoom-out touch-none' : 'cursor-zoom-in',
           )}
         >
           <img
@@ -96,7 +96,7 @@ export function ProductGallery({ wishlistItem, images, productName }: ProductGal
             style={{ transformOrigin: `${zoomOrigin.x}% ${zoomOrigin.y}%` }}
             className={cn(
               'size-full animate-fade-in object-contain transition-transform duration-200 motion-reduce:animate-none motion-reduce:transition-none',
-              isZoomed && 'scale-200'
+              isZoomed && 'scale-200',
             )}
           />
         </button>
@@ -113,7 +113,7 @@ export function ProductGallery({ wishlistItem, images, productName }: ProductGal
                 role="status"
                 className={cn(
                   'absolute top-1/2 right-full z-10 mr-2 -translate-y-1/2 rounded-md bg-ink px-3 py-1.5 text-sm font-medium whitespace-nowrap text-white',
-                  !shareMessage && 'hidden'
+                  !shareMessage && 'hidden',
                 )}
               >
                 {shareMessage}
@@ -152,7 +152,7 @@ export function ProductGallery({ wishlistItem, images, productName }: ProductGal
               aria-current={index === selectedIndex}
               className={cn(
                 'block h-[73px] w-[55px] overflow-hidden rounded-md bg-surface lg:h-[101px] lg:w-[76px] lg:rounded-lg',
-                index === selectedIndex && 'ring-1 ring-charcoal ring-offset-2'
+                index === selectedIndex && 'ring-1 ring-charcoal ring-offset-2',
               )}
             >
               <img src={image} alt="" loading="lazy" className="size-full object-cover" />

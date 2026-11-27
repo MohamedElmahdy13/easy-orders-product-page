@@ -54,9 +54,13 @@ export function ProductInfo({
             <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
               <div className="flex items-center gap-4">
                 {oldPrice && (
-                  <span className="text-sm font-medium text-muted line-through lg:text-old-price">{formatPrice(oldPrice)}</span>
+                  <span className="text-sm font-medium text-muted line-through lg:text-old-price">
+                    {formatPrice(oldPrice)}
+                  </span>
                 )}
-                <span className="text-[20px] leading-[1.2] font-semibold text-ink lg:text-price">{formatPrice(price)}</span>
+                <span className="text-[20px] leading-[1.2] font-semibold text-ink lg:text-price">
+                  {formatPrice(price)}
+                </span>
               </div>
               <StockStatus product={product} variant={variant} />
             </div>
@@ -87,12 +91,7 @@ export function ProductInfo({
 
           <div className="flex flex-col gap-[18px]">
             <p className="text-lg leading-[1.2] font-medium text-subtle lg:text-label">Quantity:</p>
-            <QuantitySelector
-              value={quantity}
-              onChange={onQuantityChange}
-              max={maxQuantity}
-              className="self-start"
-            />
+            <QuantitySelector value={quantity} onChange={onQuantityChange} max={maxQuantity} className="self-start" />
           </div>
         </div>
       </div>

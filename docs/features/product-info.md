@@ -18,11 +18,11 @@ Prices follow the selected variant, so choosing another color or size can change
 
 `StockStatus` shows one of:
 
-| Text | When |
-| --- | --- |
-| In stock | The product can be bought |
-| Only N left | Stock is tracked and N is 5 or less |
-| Out of stock | The maximum quantity is 0 |
+| Text          | When                                                            |
+| ------------- | --------------------------------------------------------------- |
+| In stock      | The product can be bought                                       |
+| Only N left   | Stock is tracked and N is 5 or less                             |
+| Out of stock  | The maximum quantity is 0                                       |
 | Select a size | There are variants, but the chosen options do not match one yet |
 
 When stock is not tracked, the product is always in stock (see the [cart limits](add-to-cart.md)).

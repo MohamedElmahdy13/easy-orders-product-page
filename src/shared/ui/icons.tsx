@@ -131,17 +131,40 @@ export function TrashIcon(props: IconProps) {
 // Filled star used for ratings (color comes from text color, e.g. text-star)
 export function StarIcon(props: IconProps) {
   return (
-    <svg
-      width="19"
-      height="18"
-      viewBox="0 0 19 18"
-      fill="currentColor"
-      aria-hidden="true"
-      focusable="false"
-      {...props}
-    >
+    <svg width="19" height="18" viewBox="0 0 19 18" fill="currentColor" aria-hidden="true" focusable="false" {...props}>
       <path d="M8.386 0.691C8.685 -0.23 9.989 -0.23 10.288 0.691L11.807 5.365C11.94 5.777 12.324 6.056 12.758 6.056H17.672C18.641 6.056 19.043 7.295 18.26 7.865L14.284 10.753C13.934 11.008 13.787 11.459 13.921 11.871L15.439 16.545C15.739 17.466 14.684 18.233 13.9 17.663L9.925 14.775C9.574 14.52 9.1 14.52 8.749 14.775L4.773 17.663C3.99 18.233 2.935 17.466 3.235 16.545L4.753 11.871C4.887 11.459 4.74 11.008 4.39 10.753L0.414 7.865C-0.37 7.295 0.033 6.056 1.002 6.056H5.916C6.349 6.056 6.733 5.777 6.867 5.365L8.386 0.691Z" />
     </svg>
+  );
+}
+
+// 24px icons from the reviews section (like, dislike, checkbox tick)
+export function ThumbUpIcon(props: IconProps) {
+  return (
+    <Icon width="24" height="24" viewBox="0 0 24 24" {...props}>
+      <path d="M7.48 18.35L10.58 20.75C10.98 21.15 11.88 21.35 12.48 21.35H16.28C17.48 21.35 18.78 20.45 19.08 19.25L21.48 11.95C21.98 10.55 21.08 9.35 19.58 9.35H15.58C14.98 9.35 14.48 8.85 14.58 8.15L15.08 4.95C15.28 4.05 14.68 3.05 13.78 2.75C12.98 2.45 11.98 2.85 11.58 3.45L7.48 9.55" />
+      <path d="M2.38 18.35V8.55C2.38 7.15 2.98 6.65 4.38 6.65H5.38C6.78 6.65 7.38 7.15 7.38 8.55V18.35C7.38 19.75 6.78 20.25 5.38 20.25H4.38C2.98 20.25 2.38 19.75 2.38 18.35Z" />
+    </Icon>
+  );
+}
+
+export function ThumbDownIcon(props: IconProps) {
+  return <ThumbUpIcon {...props} style={{ transform: 'rotate(180deg)', ...props.style }} />;
+}
+
+export function CheckIcon(props: IconProps) {
+  return (
+    <Icon width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" {...props}>
+      <path d="M7.75 12L10.58 14.83L16.25 9.17" />
+    </Icon>
+  );
+}
+
+// Funnel on the mobile "Review Lists" row
+export function FilterIcon(props: IconProps) {
+  return (
+    <Icon width="24" height="24" viewBox="0 0 24 24" {...props}>
+      <path d="M5.4 2.1H18.6C19.7 2.1 20.6 3 20.6 4.1V6.3C20.6 7.1 20.1 8.1 19.6 8.6L15.3 12.4C14.7 12.9 14.3 13.9 14.3 14.7V19C14.3 19.6 13.9 20.4 13.4 20.7L12 21.6C10.7 22.4 8.9 21.5 8.9 19.9V14.6C8.9 13.9 8.5 13 8.1 12.5L4.3 8.5C3.8 8 3.4 7.1 3.4 6.5V4.2C3.4 3 4.3 2.1 5.4 2.1Z" />
+    </Icon>
   );
 }
 

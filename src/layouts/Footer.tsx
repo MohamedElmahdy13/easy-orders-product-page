@@ -47,7 +47,10 @@ export function Footer() {
             <div className="flex flex-col gap-10">
               <img src={logo} alt="John Lewis & Partners" className="h-8 w-[170px]" />
 
-              <form onSubmit={handleSubscribe} className="flex w-full max-w-[298px] items-center gap-8 border-b-[0.5px] border-ink focus-within:outline-2 focus-within:outline-offset-4 focus-within:outline-ink">
+              <form
+                onSubmit={handleSubscribe}
+                className="flex w-full max-w-[298px] items-center gap-8 border-b-[0.5px] border-ink focus-within:outline-2 focus-within:outline-offset-4 focus-within:outline-ink"
+              >
                 <input
                   type="email"
                   aria-label="Email address"
@@ -85,9 +88,7 @@ export function Footer() {
                 <ul className="flex flex-col gap-3">
                   {column.links.map((link) => (
                     <li key={link}>
-                      <a className="text-sm leading-[22px] hover:underline">
-                        {link}
-                      </a>
+                      <a className="text-sm leading-[22px] hover:underline">{link}</a>
                     </li>
                   ))}
                 </ul>
