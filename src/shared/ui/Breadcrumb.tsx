@@ -20,9 +20,13 @@ export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
                 </span>
               ) : (
                 <>
-                  <a href={item.href ?? '#'} className="hover:text-ink">
-                    {item.label}
-                  </a>
+                  {item.href ? (
+                    <a href={item.href} className="hover:text-ink">
+                      {item.label}
+                    </a>
+                  ) : (
+                    <span>{item.label}</span>
+                  )}
                   <BreadcrumbArrowIcon className="text-[#818B9C]" />
                 </>
               )}

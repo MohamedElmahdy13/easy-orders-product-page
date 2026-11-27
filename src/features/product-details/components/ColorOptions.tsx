@@ -1,3 +1,4 @@
+import { capitalize } from '@/shared/utils/capitalize';
 import { cn } from '@/shared/utils/cn';
 import type { Variation } from '../product.types';
 
@@ -7,10 +8,6 @@ type ColorOptionsProps = {
   onSelect: (option: string) => void;
   isAvailable: (option: string) => boolean;
 };
-
-function capitalize(text: string) {
-  return text.charAt(0).toUpperCase() + text.slice(1);
-}
 
 export function ColorOptions({ variation, selected, onSelect, isAvailable }: ColorOptionsProps) {
   return (

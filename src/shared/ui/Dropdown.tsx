@@ -38,6 +38,7 @@ export function Dropdown({
 
       <MenuItems
         transition
+        modal={false}
         anchor={anchor}
         className="z-40 min-w-40 rounded-lg border border-border bg-white p-1 shadow-lg transition duration-150 [--anchor-gap:8px] focus:outline-none data-closed:scale-95 data-closed:opacity-0 motion-reduce:transition-none"
       >

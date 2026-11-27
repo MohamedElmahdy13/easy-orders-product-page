@@ -2,7 +2,7 @@ import { Divider } from '@/shared/ui/Divider';
 import { QuantitySelector } from '@/shared/ui/QuantitySelector';
 import { formatPrice } from '@/shared/utils/formatPrice';
 import type { Product, Variant } from '../product.types';
-import { getCategoryNames, getPrices, isInStock, isOptionAvailable } from '../utils/variants';
+import { getPrices, isInStock, isOptionAvailable } from '../utils/variants';
 import type { Selection } from '../utils/variants';
 import { AddToCartActions } from './AddToCartActions';
 import { ColorOptions } from './ColorOptions';
@@ -39,7 +39,6 @@ export function ProductInfo({
 }: ProductInfoProps) {
   const { price, oldPrice } = getPrices(product, variant);
   const inStock = isInStock(product, variant);
-  const categories = getCategoryNames(product);
   const colors = product.variations.find((variation) => variation.name === 'color');
   const sizes = product.variations.find((variation) => variation.name === 'size');
 
@@ -107,19 +106,6 @@ export function ProductInfo({
           message={message}
         />
       </div>
-
-      {categories.length > 0 && (
-        <div className="mt-8 flex flex-wrap items-center gap-2">
-          <span className="text-body font-medium text-subtle">Categories:</span>
-          <ul className="flex flex-wrap gap-2">
-            {categories.map((category) => (
-              <li key={category} className="rounded-full bg-surface px-3 py-1 text-sm font-medium text-muted">
-                {category}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </div>
   );
 }

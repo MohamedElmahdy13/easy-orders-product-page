@@ -22,7 +22,7 @@ export function SizeOptions({ variation, selected, onSelect, isAvailable }: Size
         <button
           type="button"
           onClick={() => setIsChartOpen(true)}
-          className="text-body leading-[1.2] font-medium text-link underline hover:text-ink"
+          className="-my-3 py-3 text-body leading-[1.2] font-medium text-link underline hover:text-ink"
         >
           View Size Chart
         </button>

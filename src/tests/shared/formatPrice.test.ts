@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatPrice } from './formatPrice';
+import { formatPrice } from '@/shared/utils/formatPrice';
 
 describe('formatPrice', () => {
   it('shows two decimals with a dollar sign', () => {
