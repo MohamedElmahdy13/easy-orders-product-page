@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import type { KeyboardEvent, PointerEvent } from 'react';
-import { ChevronLeftIcon, ChevronRightIcon, HeartIcon, ShareIcon } from '@/shared/ui/icons';
+import { WishlistToggle } from '@/features/wishlist';
+import type { WishlistItem } from '@/features/wishlist';
+import { ChevronLeftIcon, ChevronRightIcon, ShareIcon } from '@/shared/ui/icons';
 import { useTemporaryMessage } from '@/shared/hooks/useTemporaryMessage';
 import { IconButton } from '@/shared/ui/IconButton';
 import { cn } from '@/shared/utils/cn';
 import { getNextIndex } from '../utils/gallery';
 
 type ProductGalleryProps = {
+  wishlistItem: WishlistItem;
   images: string[];
   productName: string;
 };
 
-export function ProductGallery({ images, productName }: ProductGalleryProps) {
+export function ProductGallery({ wishlistItem, images, productName }: ProductGalleryProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);
   // Where the zoom is centered, in percent of the image
@@ -116,9 +119,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
                 {shareMessage}
               </p>
             </div>
-            <IconButton aria-label="Add to wishlist">
-              <HeartIcon />
-            </IconButton>
+            <WishlistToggle item={wishlistItem} />
           </div>
 
           {images.length > 1 && (

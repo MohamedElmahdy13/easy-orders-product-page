@@ -93,3 +93,29 @@ test('shows an error and lets the shopper try again when the product fails to lo
 
   await expect(page.getByRole('heading', { level: 1, name: 'Achilles Pro' })).toBeVisible();
 });
+
+test('shopper saves a variant to the wishlist, moves it to the cart and the wishlist survives a reload', async ({ page }) => {
+  await mockProduct(page);
+  await page.goto('/');
+
+  // Save brown / 38, then the other size is a different line
+  await page.getByRole('button', { name: 'Add to wishlist' }).click();
+  await expect(page.getByRole('button', { name: 'Remove from wishlist' })).toBeVisible();
+  await page.getByRole('button', { name: '40', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Add to wishlist' })).toBeVisible();
+  await page.getByRole('button', { name: 'Add to wishlist' }).click();
+  await expect(page.getByRole('button', { name: 'Wishlist, 2 items' })).toBeVisible();
+
+  // The wishlist is saved in the browser
+  await page.reload();
+  await page.getByRole('button', { name: 'Wishlist, 2 items' }).click();
+  const drawer = page.getByRole('dialog');
+  await expect(drawer.getByRole('listitem')).toHaveCount(2);
+
+  // Move one line to the cart
+  await drawer.getByRole('button', { name: 'Move Achilles Pro to cart' }).first().click();
+  await expect(drawer.getByRole('listitem')).toHaveCount(1);
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('button', { name: 'Cart, 1 items' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Wishlist, 1 items' })).toBeVisible();
+});

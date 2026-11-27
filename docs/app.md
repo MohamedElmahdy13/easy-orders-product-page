@@ -15,9 +15,9 @@ The only page. It renders the dashed `Divider`, the breadcrumb and `ProductDetai
 | --- | --- |
 | `MainLayout` | Announcement bar, header, `main`, footer, and the `CartDrawer` (rendered once for the whole app). |
 | `AnnouncementBar` | Black bar with the promo text. The timer text is static. |
-| `Header` | Logo, search, Categories dropdown, sign in, wishlist, `CartButton`. On mobile the icons collapse into a menu button that opens a drawer. |
+| `Header` | Logo, search, Categories dropdown, sign in, `WishlistButton`, `CartButton`. On mobile the icons collapse into a menu button that opens a drawer. |
 | `Footer` | Link columns, newsletter field, social links, language and currency dropdowns, and the copyright line under the shared `Divider`. |
 
-Demo only: search, sign in, wishlist, the newsletter form, and the language and currency menus (they only change their own label). The Categories list is fixed because the API only returns the categories of one product.
+Demo only: search, sign in, the newsletter form, and the language and currency menus (they only change their own label). The Categories list is fixed because the API only returns the categories of one product.
 
 The header and footer put the vertical padding on `<header>` and `<footer>`, and use `container-page` only for the width.

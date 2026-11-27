@@ -65,18 +65,20 @@ function ProductContent({ product }: { product: Product }) {
   let message = addedMessage;
   if (!message && isMaxInCart) message = 'You already have the maximum quantity in your cart';
 
+  // What the cart and the wishlist save for the selected color and size
+  const itemToSave = {
+    id: itemId,
+    productId: product.id,
+    name: product.name,
+    image: product.thumb,
+    price: getPrices(product, variant).price,
+    color: selection.color,
+    size: selection.size,
+    maxQuantity,
+  };
+
   function addToCart() {
-    addItem({
-      id: itemId,
-      productId: product.id,
-      name: product.name,
-      image: product.thumb,
-      price: getPrices(product, variant).price,
-      color: selection.color,
-      size: selection.size,
-      quantity: quantityToAdd,
-      maxQuantity,
-    });
+    addItem({ ...itemToSave, quantity: quantityToAdd });
   }
 
   function handleAddToCart() {
@@ -91,7 +93,11 @@ function ProductContent({ product }: { product: Product }) {
 
   return (
     <div className={pageGrid}>
-      <ProductGallery images={getGalleryImages(product)} productName={product.name} />
+      <ProductGallery
+        wishlistItem={itemToSave}
+        images={getGalleryImages(product)}
+        productName={product.name}
+      />
       <ProductInfo
         product={product}
         variant={variant}

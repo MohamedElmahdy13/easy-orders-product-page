@@ -12,7 +12,7 @@ Shows the product images and lets the shopper browse and zoom them.
 - Keyboard (only while the focus is inside the gallery): the left and right arrows show the previous and next image and go around at the ends, and Escape zooms out. The up and down arrows are not used, so the page can still be scrolled. Combinations with Alt, Ctrl, Cmd or Shift are ignored, because Alt or Cmd with an arrow is the browser's back and forward. The gallery is a `role="group"` labeled "Product images".
 - A short fade animation runs when the image changes, and the zoom resets. Animations are off when the user prefers reduced motion.
 - Share button: uses the native share sheet when the browser has it (the sheet gives its own feedback). Otherwise it copies the page link and shows a small message next to the button for 2 seconds: "Link copied", or "Could not copy the link" when the browser blocks it. The message is a `role="status"` region, so screen readers announce it.
-- The wishlist heart is only part of the design and does nothing yet.
+- The wishlist heart is the `WishlistToggle` from the [wishlist feature](wishlist.md). The gallery gets the item to save (selected color and size) as the `wishlistItem` prop.
 - With no images, a grey placeholder with the same ratio is shown.
 
 ## Props

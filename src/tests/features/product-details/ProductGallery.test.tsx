@@ -4,9 +4,10 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ProductGallery } from '@/features/product-details/components/ProductGallery';
 
 const images = ['a.jpg', 'b.jpg', 'c.jpg'];
+const wishlistItem = { id: 'p1:v1', productId: 'p1', name: 'Boot', image: 'a.jpg', price: 100, maxQuantity: 5 };
 
 function renderGallery(list = images) {
-  render(<ProductGallery images={list} productName="Boot" />);
+  render(<ProductGallery wishlistItem={wishlistItem} images={list} productName="Boot" />);
 }
 
 afterEach(() => {

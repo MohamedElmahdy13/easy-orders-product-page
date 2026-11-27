@@ -7,6 +7,7 @@ import { EmptyCart } from './EmptyCart';
 export function CartDrawer() {
   const isOpen = useCartStore((state) => state.isOpen);
   const closeCart = useCartStore((state) => state.closeCart);
+  const clearCart = useCartStore((state) => state.clearCart);
   const items = useCartStore((state) => state.items);
   const total = useCartStore(selectCartTotal);
 
@@ -19,9 +20,18 @@ export function CartDrawer() {
       title="Your Cart"
       footer={
         !isEmpty && (
-          <div className="flex items-center justify-between text-label font-semibold text-heading">
-            <span>Total</span>
-            <span>{formatPrice(total)}</span>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between text-label font-semibold text-heading">
+              <span>Total</span>
+              <span>{formatPrice(total)}</span>
+            </div>
+            <button
+              type="button"
+              onClick={clearCart}
+              className="self-start text-sm leading-[1.2] font-medium text-link underline hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            >
+              Clear cart
+            </button>
           </div>
         )
       }
