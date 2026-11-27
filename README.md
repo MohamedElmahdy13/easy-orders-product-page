@@ -125,5 +125,5 @@ The `docs/` folder has the full documentation, see [docs/README.md](docs/README.
 - On a 320px wide phone the Add To Cart button can be 1px wider than the screen (its width comes from the design).
 - The grey label color (`#8f8f8f`) comes from the design and is below the 4.5:1 text contrast ratio.
 - Search, Sign in, the language and currency menus, and the newsletter form are only there to match the design and do not do anything yet.
-- No memoization (`memo`, `useMemo`, `useCallback`): the page is small, nothing was measured as slow, and it keeps the code simple.
+- Memoization is used in one place only, as a proof of concept: the reviews section (see [Memoization](docs/ARCHITECTURE.md#memoization)). The rest of the page has none, because it is small and nothing is slow.
 - Touch targets: the header icons have a 40px tap area. Quantity buttons and options keep the sizes from the Figma design.

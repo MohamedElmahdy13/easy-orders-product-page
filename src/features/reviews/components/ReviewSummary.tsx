@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { DashedBox } from '@/shared/ui/DashedBox';
 import { StarIcon } from '@/shared/ui/icons';
 import { StarRating } from './StarRating';
@@ -36,8 +37,9 @@ function RatingRing({ average }: { average: number }) {
   );
 }
 
-// Average rating on the left and one bar per star count on the right
-export function ReviewSummary({ average, total, counts }: ReviewSummaryProps) {
+// Average rating on the left and one bar per star count on the right.
+// memo: the summary does not change with the filters, so it skips their re-renders.
+export const ReviewSummary = memo(function ReviewSummary({ average, total, counts }: ReviewSummaryProps) {
   return (
     <DashedBox className="flex flex-col gap-6 py-4 pr-[23px] pl-[17px] lg:flex-row lg:items-start lg:gap-30 lg:p-6">
       <div className="flex items-center gap-4">
@@ -72,4 +74,4 @@ export function ReviewSummary({ average, total, counts }: ReviewSummaryProps) {
       </ul>
     </DashedBox>
   );
-}
+});

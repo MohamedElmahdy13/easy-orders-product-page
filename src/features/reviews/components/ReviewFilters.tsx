@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { memo, type ReactNode } from 'react';
 import { Checkbox } from '@/shared/ui/Checkbox';
 import { DashedBox } from '@/shared/ui/DashedBox';
 import { Divider } from '@/shared/ui/Divider';
@@ -28,7 +28,13 @@ function FilterGroup({ title, children }: { title: string; children: ReactNode }
   );
 }
 
-export function ReviewFilters({ ratings, topics, onToggleRating, onToggleTopic }: ReviewFiltersProps) {
+// memo: changing the tab or the page does not touch the filters, so they skip those re-renders
+export const ReviewFilters = memo(function ReviewFilters({
+  ratings,
+  topics,
+  onToggleRating,
+  onToggleTopic,
+}: ReviewFiltersProps) {
   return (
     <DashedBox className="p-4 lg:p-6">
       <aside aria-label="Reviews filter" className="flex flex-col gap-3 lg:gap-4">
@@ -65,4 +71,4 @@ export function ReviewFilters({ ratings, topics, onToggleRating, onToggleTopic }
       </aside>
     </DashedBox>
   );
-}
+});

@@ -26,7 +26,7 @@ Mobile follows the Figma mobile frame (base classes are mobile, `lg:` classes ar
 
 ## State
 
-The selected tab, ratings, topics and page are local state in `ProductReviews` (`useState`), because nothing else needs them. The summary, the filtered list and the page count are calculated on every render, never stored. The logic is in pure functions in `utils/reviews.ts`: `filterReviews`, `getRatingSummary`, `paginate` and `toggleValue`.
+The selected tab, ratings, topics and page are local state in `ProductReviews` (`useState`), because nothing else needs them. The summary is calculated once at module level, and the filtered list and the page count on every render, never stored. `ReviewSummary` and `ReviewFilters` use `memo`, and the toggle handlers use `useCallback`, so changing the tab or the page does not re-render them. This is a proof of concept, see [Memoization](../ARCHITECTURE.md#memoization). The logic is in pure functions in `utils/reviews.ts`: `filterReviews`, `getRatingSummary`, `paginate` and `toggleValue`.
 
 ## Accessibility
 

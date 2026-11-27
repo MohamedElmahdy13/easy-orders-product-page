@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 import { Divider } from '@/shared/ui/Divider';
 import { FilterIcon } from '@/shared/ui/icons';
 import { cn } from '@/shared/utils/cn';
@@ -22,6 +22,9 @@ const tabs: { id: ReviewTab; label: string }[] = [
   { id: 'description', label: 'With Description' },
 ];
 
+// The summary always counts every review, and the reviews never change, so it is worked out once
+const summary = getRatingSummary(exampleReviews);
+
 export function ProductReviews() {
   const [tab, setTab] = useState<ReviewTab>('all');
   const [ratings, setRatings] = useState<number[]>([]);
@@ -30,8 +33,7 @@ export function ProductReviews() {
   // On mobile the filter box is hidden until the funnel button opens it
   const [showFilters, setShowFilters] = useState(false);
 
-  // The summary always counts every review. The list follows the filters.
-  const summary = getRatingSummary(exampleReviews);
+  // The list follows the filters
   const filtered = filterReviews(exampleReviews, { tab, ratings, topics });
   const pageCount = Math.max(1, Math.ceil(filtered.length / REVIEWS_PER_PAGE));
   const visible = paginate(filtered, page, REVIEWS_PER_PAGE);
@@ -42,15 +44,16 @@ export function ProductReviews() {
     setPage(1);
   }
 
-  function toggleRating(rating: number) {
+  // useCallback keeps the same functions between renders, so the memo on ReviewFilters works
+  const toggleRating = useCallback((rating: number) => {
     setRatings((current) => toggleValue(current, rating));
     setPage(1);
-  }
+  }, []);
 
-  function toggleTopic(topic: string) {
+  const toggleTopic = useCallback((topic: string) => {
     setTopics((current) => toggleValue(current, topic));
     setPage(1);
-  }
+  }, []);
 
   const filters = (
     <ReviewFilters ratings={ratings} topics={topics} onToggleRating={toggleRating} onToggleTopic={toggleTopic} />
@@ -67,8 +70,6 @@ export function ProductReviews() {
             >
               Product Reviews
             </h2>
-            {/* The API has no reviews, so the list is example data */}
-            <p className="text-xs leading-[1.6] text-muted lg:text-sm">Example reviews for this demo.</p>
           </div>
 
           <ReviewSummary {...summary} />
