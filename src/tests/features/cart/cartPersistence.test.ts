@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { CartItem } from '@/features/cart/cart.types';
 import { selectCartCount, selectCartTotal, useCartStore } from '@/features/cart/store/cartStore';
 
@@ -26,6 +26,10 @@ function readFromStorage() {
 beforeEach(() => {
   useCartStore.setState({ items: [], isOpen: false });
   localStorage.clear();
+});
+
+afterEach(() => {
+  vi.restoreAllMocks();
 });
 
 describe('cart persistence', () => {
@@ -57,5 +61,32 @@ describe('cart persistence', () => {
     await useCartStore.persist.rehydrate();
 
     expect(useCartStore.getState().items).toEqual([]);
+  });
+
+  it('ignores saved data that is not a list of cart items', async () => {
+    localStorage.setItem('cart', JSON.stringify({ state: { items: 'broken' }, version: 0 }));
+    await useCartStore.persist.rehydrate();
+    expect(useCartStore.getState().items).toEqual([]);
+
+    saveToStorage([shoe, null, { id: 5 }] as unknown as CartItem[]);
+    await useCartStore.persist.rehydrate();
+    expect(useCartStore.getState().items).toEqual([shoe]);
+  });
+
+  it('starts with an empty cart when the saved text is not valid JSON', async () => {
+    localStorage.setItem('cart', '{not json');
+
+    await useCartStore.persist.rehydrate();
+
+    expect(useCartStore.getState().items).toEqual([]);
+  });
+
+  it('keeps working when the browser cannot save', () => {
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('storage is full');
+    });
+
+    expect(() => useCartStore.getState().addItem(shoe)).not.toThrow();
+    expect(useCartStore.getState().items).toEqual([shoe]);
   });
 });

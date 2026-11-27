@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 import type { CartItem } from '../cart.types';
 
 type CartState = {
@@ -16,6 +16,45 @@ type CartState = {
 // Keep the quantity between 1 and the max for that item
 function clampQuantity(quantity: number, max: number) {
   return Math.max(1, Math.min(quantity, max));
+}
+
+// localStorage can be blocked or full. The cart must keep working, it just will not be saved.
+const safeStorage = createJSONStorage(() => ({
+  getItem: (name) => {
+    try {
+      return localStorage.getItem(name);
+    } catch {
+      return null;
+    }
+  },
+  setItem: (name, value) => {
+    try {
+      localStorage.setItem(name, value);
+    } catch {
+      // not saved, nothing else to do
+    }
+  },
+  removeItem: (name) => {
+    try {
+      localStorage.removeItem(name);
+    } catch {
+      // nothing to remove
+    }
+  },
+}));
+
+// What was saved in the browser could be old or edited, so only keep lines that look like cart items
+function isCartItem(value: unknown): value is CartItem {
+  const item = value as Partial<CartItem> | null;
+  return (
+    typeof item === 'object' &&
+    item !== null &&
+    typeof item.id === 'string' &&
+    typeof item.name === 'string' &&
+    typeof item.price === 'number' &&
+    typeof item.quantity === 'number' &&
+    typeof item.maxQuantity === 'number'
+  );
 }
 
 export const useCartStore = create<CartState>()(
@@ -52,8 +91,13 @@ export const useCartStore = create<CartState>()(
     })),
     {
       name: 'cart',
+      storage: safeStorage,
       // Only the items are saved, the drawer should always start closed
       partialize: (state) => ({ items: state.items }),
+      merge: (saved, current) => {
+        const items = (saved as { items?: unknown } | undefined)?.items;
+        return { ...current, items: Array.isArray(items) ? items.filter(isCartItem) : [] };
+      },
     },
   ),
 );

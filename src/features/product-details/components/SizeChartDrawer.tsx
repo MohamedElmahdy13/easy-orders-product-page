@@ -31,6 +31,7 @@ export function SizeChartDrawer({ open, onClose, sizes, selected }: SizeChartDra
       <p className="text-body text-muted">
         Measure your foot from heel to toe and pick the closest size. If you are between two sizes, choose the bigger one.
       </p>
+      <p className="mt-2 text-sm text-muted">Example values for this demo.</p>
 
       <table className="mt-6 w-full text-left text-body">
         <thead>

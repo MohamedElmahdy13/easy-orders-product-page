@@ -24,3 +24,8 @@ Only the fields the page uses are typed, in `product.types.ts`:
 - The images from the API do not match the color swatches, so choosing a color does not change the gallery.
 - Categories come as a flat list and may repeat, so duplicates are removed and the API order is kept.
 - The API has no size chart data, so the size chart shows example values.
+
+## Known limits
+
+- The response is trusted: its shape is not validated at runtime (no validation library on purpose). A response with a very different shape would show an error or break the page.
+- Only the supplied product is covered. Products with other variation names than `color` and `size` are not designed for.

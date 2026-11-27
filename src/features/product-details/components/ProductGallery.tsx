@@ -35,7 +35,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
     if (navigator.share) {
       await navigator.share({ title: productName, url }).catch(() => {});
     } else {
-      await navigator.clipboard?.writeText(url);
+      await navigator.clipboard?.writeText(url).catch(() => {});
     }
   }
 
@@ -62,7 +62,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
             alt={`${productName}, image ${selectedIndex + 1} of ${images.length}`}
             style={{ transformOrigin: `${zoomOrigin.x}% ${zoomOrigin.y}%` }}
             className={cn(
-              'size-full animate-fade-in object-cover transition-transform duration-200 motion-reduce:animate-none',
+              'size-full animate-fade-in object-cover transition-transform duration-200 motion-reduce:animate-none motion-reduce:transition-none',
               isZoomed && 'scale-200'
             )}
           />

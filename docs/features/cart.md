@@ -23,6 +23,10 @@ The count and the total are calculated from the items, not stored. Prices in the
 
 The store is saved in `localStorage` under the key `cart`. Only `items` is saved (`partialize`), so the drawer is always closed after a reload.
 
+The saved data is treated as untrusted: if the browser blocks or cannot write `localStorage`, the cart still works and is just not saved. When loading, anything that is not a list of valid cart lines is ignored, so the cart starts empty instead of crashing.
+
+The saved `maxQuantity` is a snapshot. It is refreshed with the current stock when the same variant is added again from the product page, but it is not re-checked on load.
+
 ## Components
 
 | Component | What it does |

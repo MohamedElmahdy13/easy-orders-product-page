@@ -9,7 +9,7 @@ import { ProductDetails } from '@/features/product-details/components/ProductDet
 function renderProduct() {
   // No retries, so a failed request shows the error right away
   const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-  render(
+  return render(
     <QueryClientProvider client={client}>
       <ProductDetails slug="achilles-pro" />
     </QueryClientProvider>,
@@ -31,8 +31,10 @@ afterEach(() => {
 describe('ProductDetails', () => {
   it('shows a loading state until the product arrives', () => {
     vi.stubGlobal('fetch', vi.fn().mockReturnValue(new Promise(() => {})));
-    renderProduct();
+    const { container } = renderProduct();
 
+    // The skeleton placeholders are on the page, and neither the product nor an error is
+    expect(container.querySelectorAll('.animate-pulse').length).toBeGreaterThan(0);
     expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument();
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   });

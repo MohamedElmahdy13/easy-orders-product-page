@@ -109,7 +109,10 @@ The `docs/` folder has the full documentation, see [docs/README.md](docs/README.
 - The product has no size chart data in the API, so the size chart shows example values.
 - The images from the API do not match the color swatches, so selecting a color changes the swatch and the price, not the gallery.
 - Categories are shown in the breadcrumb in the order the API returns them (duplicates removed).
-- Cart items keep the price from the moment they were added.
+- Cart items keep the price and the stock limit from the moment they were added.
+- The API response is not validated at runtime, and only this product (colors and sizes) is covered.
+- On a 320px wide phone the Add To Cart button can be 1px wider than the screen (its width comes from the design).
+- The grey label color (`#8f8f8f`) comes from the design and is below the 4.5:1 text contrast ratio.
 - Search, Sign in, wishlist, the language and currency menus, and the newsletter form are only there to match the design and do not do anything yet.
 - No memoization (`memo`, `useMemo`, `useCallback`): the page is small, nothing was measured as slow, and it keeps the code simple.
 - Touch targets: the header icons have a 40px tap area. Quantity buttons and options keep the sizes from the Figma design.

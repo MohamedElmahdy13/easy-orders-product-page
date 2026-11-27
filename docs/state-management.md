@@ -14,7 +14,7 @@
 - Actions: `addItem`, `setQuantity`, `removeItem`, `openCart`, `closeCart`. Selectors: `selectCartCount`, `selectCartTotal`.
 - Item id is `${product.id}:${variant?.id ?? 'default'}`, so every variant is its own line.
 - The quantity is always kept between 1 and the item's `maxQuantity`.
-- `persist` saves under the key `cart` and uses `partialize` to keep only `items`.
+- `persist` saves under the key `cart` and uses `partialize` to keep only `items`. A safe storage wrapper and a `merge` that keeps only valid lines protect against blocked, full or edited storage.
 
 ## Variant selection
 
