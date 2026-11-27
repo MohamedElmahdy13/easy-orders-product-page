@@ -50,6 +50,14 @@ const product: Product = {
   ),
 };
 
+// Same product with tracked stock: brown/38 and black/40 are in stock, brown/40 and black/38 are sold out
+const stockByVariant: Record<string, number> = { 'brown-38': 2, 'brown-40': 0, 'black-38': 0, 'black-40': 5 };
+const trackedProduct: Product = {
+  ...product,
+  track_stock: true,
+  variants: product.variants.map((variant) => ({ ...variant, quantity: stockByVariant[variant.id] })),
+};
+
 function renderPage() {
   render(
     <Providers>
@@ -156,5 +164,28 @@ describe('cart flow', () => {
     await user.click(screen.getByRole('button', { name: 'Add To Cart' }));
     expect(screen.getByRole('button', { name: /^Cart, 10 item/ })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Add To Cart' })).toBeDisabled();
+  });
+
+  it('clears the size when the new color does not have it, and enables Add To Cart after a valid pick', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => trackedProduct }));
+    const user = userEvent.setup();
+    renderPage();
+
+    // Starts on brown / 38, the first variant in stock
+    expect(await screen.findByRole('button', { name: 'Add To Cart' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: '40' })).toBeDisabled();
+
+    // Black has no size 38, so the size is cleared and nothing else is picked for the shopper
+    await user.click(screen.getByRole('button', { name: 'Black' }));
+    expect(screen.getByRole('button', { name: '38' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: '40' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: '40' })).toHaveAttribute('aria-pressed', 'false');
+    expect(screen.getByText('Select a size')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Add To Cart' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Checkout Now' })).toBeDisabled();
+
+    await user.click(screen.getByRole('button', { name: '40' }));
+    expect(screen.getByRole('button', { name: 'Add To Cart' })).toBeEnabled();
+    expect(screen.getByRole('button', { name: 'Checkout Now' })).toBeEnabled();
   });
 });

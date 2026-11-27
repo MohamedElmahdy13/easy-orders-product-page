@@ -59,29 +59,46 @@ export function isInStock(product: Product, variant?: Variant): boolean {
   return getMaxQuantity(product, variant) > 0;
 }
 
-// An option is available when at least one variant with that option can be bought
-export function isOptionAvailable(product: Product, variationName: string, option: string): boolean {
-  return product.variants.some(
-    (variant) =>
-      isPurchasable(product, variant) &&
-      variant.variation_props.some((prop) => prop.variation === variationName && prop.variation_prop === option),
+// The first variation (color) is the main choice. The others (size) depend on it.
+function getMainVariationName(product: Product): string {
+  return product.variations[0]?.name ?? '';
+}
+
+// Does the variant have every option in `wanted`?
+function hasOptions(variant: Variant, wanted: Selection): boolean {
+  return Object.entries(wanted).every(([variationName, option]) =>
+    variant.variation_props.some((prop) => prop.variation === variationName && prop.variation_prop === option),
   );
 }
 
-// The selection after the shopper picks an option. If that option does not exist with the other
-// selected options (or is sold out), switch the others to the first variant that has it.
+// A color is available when one of its variants can be bought.
+// A size is available when it can be bought together with the selected color.
+export function isOptionAvailable(product: Product, selection: Selection, variationName: string, option: string): boolean {
+  const mainName = getMainVariationName(product);
+  const mainOption = selection[mainName];
+
+  const wanted: Selection =
+    variationName === mainName || !mainOption
+      ? { [variationName]: option }
+      : { [mainName]: mainOption, [variationName]: option };
+
+  return product.variants.some((variant) => isPurchasable(product, variant) && hasOptions(variant, wanted));
+}
+
+// The selection after the shopper picks an option. When the color changes, a chosen size that does
+// not exist for the new color is cleared, so the shopper picks another one.
 export function selectOption(product: Product, selection: Selection, variationName: string, option: string): Selection {
-  const wanted = { ...selection, [variationName]: option };
-  const variant = findVariant(product, wanted);
-  if (variant && isPurchasable(product, variant)) return wanted;
+  const next = { ...selection, [variationName]: option };
+  if (variationName !== getMainVariationName(product)) return next;
 
-  const alternative = product.variants.find(
-    (candidate) =>
-      isPurchasable(product, candidate) &&
-      candidate.variation_props.some((prop) => prop.variation === variationName && prop.variation_prop === option),
-  );
+  for (const variation of product.variations.slice(1)) {
+    const chosen = next[variation.name];
+    if (chosen && !isOptionAvailable(product, next, variation.name, chosen)) {
+      delete next[variation.name];
+    }
+  }
 
-  return alternative ? selectionFromVariant(alternative) : wanted;
+  return next;
 }
 
 // The API can send the same category twice (with different ids), so list each name once

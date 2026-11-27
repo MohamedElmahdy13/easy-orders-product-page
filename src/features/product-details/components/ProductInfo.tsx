@@ -74,7 +74,7 @@ export function ProductInfo({
               variation={colors}
               selected={selection.color}
               onSelect={(option) => onSelectOption('color', option)}
-              isAvailable={(option) => isOptionAvailable(product, 'color', option)}
+              isAvailable={(option) => isOptionAvailable(product, selection, 'color', option)}
             />
           )}
           {sizes && (
@@ -82,7 +82,7 @@ export function ProductInfo({
               variation={sizes}
               selected={selection.size}
               onSelect={(option) => onSelectOption('size', option)}
-              isAvailable={(option) => isOptionAvailable(product, 'size', option)}
+              isAvailable={(option) => isOptionAvailable(product, selection, 'size', option)}
             />
           )}
 
