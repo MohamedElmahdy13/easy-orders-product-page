@@ -1,17 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import logo from '@/assets/logo.png';
 import { CartButton } from '@/features/cart';
-import { WishlistButton, selectWishlistCount, useWishlistStore } from '@/features/wishlist';
-import {
-  ChevronDownIcon,
-  HeartIcon,
-  MenuIcon,
-  SearchIcon,
-  UserIcon,
-} from '@/shared/ui/icons';
-import { Badge } from '@/shared/ui/Badge';
+import { WishlistButton } from '@/features/wishlist';
+import { ChevronDownIcon, MenuIcon, SearchIcon, UserIcon } from '@/shared/ui/icons';
 import { Drawer } from '@/shared/ui/Drawer';
 import { Dropdown } from '@/shared/ui/Dropdown';
+import { cn } from '@/shared/utils/cn';
 
 // The API only returns the categories of one product, so the menu uses a fixed list
 const categories = ['Mules', 'Women heels', 'Moc Toe Boots', 'Sneakers', 'Sandals'];
@@ -20,12 +14,32 @@ const textLinkClass = 'hidden items-center gap-1 text-base leading-[1.6] font-me
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const openWishlist = useWishlistStore((state) => state.openWishlist);
-  const wishlistCount = useWishlistStore(selectWishlistCount);
+
+  // The shadow only shows once the header is stuck to the top, so it does not sit on the page's divider
+  const headerRef = useRef<HTMLElement>(null);
+  const [isStuck, setIsStuck] = useState(false);
+
+  useEffect(() => {
+    function updateStuck() {
+      const top = headerRef.current?.getBoundingClientRect().top ?? 1;
+      setIsStuck(window.scrollY > 0 && top <= 0);
+    }
+
+    updateStuck();
+    window.addEventListener('scroll', updateStuck, { passive: true });
+    return () => window.removeEventListener('scroll', updateStuck);
+  }, []);
 
   return (
     <>
-      <header className="py-7.75">
+      {/* Sticky: stays in the page flow (no spacing change) and stays on top while scrolling */}
+      <header
+        ref={headerRef}
+        className={cn(
+          'sticky top-0 z-30 bg-white py-7.75 transition-shadow duration-200',
+          isStuck && 'shadow-[0_4px_12px_rgba(0,0,0,0.06)]'
+        )}
+      >
         <div className="container-page flex items-center justify-between">
           <a href="/">
             <img
@@ -92,21 +106,7 @@ export function Header() {
             Sign in
           </a>
 
-          <button
-            type="button"
-            aria-label={`Wishlist, ${wishlistCount} items`}
-            onClick={() => {
-              setIsMenuOpen(false);
-              openWishlist();
-            }}
-            className="flex items-center gap-2"
-          >
-            <span className="relative block">
-              <HeartIcon />
-              <Badge count={wishlistCount} className="absolute -top-1 -right-1.5" />
-            </span>
-            Wishlist
-          </button>
+          <WishlistButton variant="menu" onOpen={() => setIsMenuOpen(false)} />
         </nav>
       </Drawer>
     </>
